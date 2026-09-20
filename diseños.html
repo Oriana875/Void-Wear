@@ -1,412 +1,1167 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Diseños | UNDERTHING</title>
 
-    <link rel="icon" type="image/png" href="img/Logo.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,700&family=Montserrat:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400;1,6..96,500;1,6..96,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
 
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-<!-- =========================
-     HEADER
-========================= -->
+    <header class="site-header">
 
-<header>
-
-    <div class="logo">
-
-        <a href="index.html">
-
-            <img
-                src="img/Logo.png"
-                alt="Logo UNDERTHING"
-            >
-
+        <a href="index.html" class="logo">
+            <img src="img/Logo.png" alt="UNDERTHING">
         </a>
 
+        <button class="menu-btn" id="menu-btn" aria-label="Abrir menú">
+            ☰
+        </button>
+
+        <nav class="site-nav" id="site-nav">
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="diseños.html" class="activo">Diseños</a>
+            <a href="index.html#nosotros">Nosotros</a>
+            <a href="index.html#contacto">Contacto</a>
+        </nav>
+
+        <button class="carrito-header" id="abrir-carrito" aria-label="Abrir carrito">
+            🛍️
+            <span id="contador-carrito">0</span>
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero-disenos">
+
+        <div class="hero-disenos-texto">
+
+            <span class="mini-etiqueta">CREATE YOUR THING</span>
+
+            <h1>
+                Diseña algo
+                <em>muy tú.</em>
+            </h1>
+
+            <p>
+                Elige tu prenda, cambia su color, selecciona un diseño
+                y decide exactamente dónde quieres colocarlo.
+            </p>
+
+        </div>
+
+        <div class="hero-disenos-decoracion">
+            <span>01</span>
+            <span>YOUR</span>
+            <span>THING</span>
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PERSONALIZADOR
+    ========================== -->
+
+    <main class="personalizador">
+
+        <!-- PROGRESO -->
+
+        <div class="progreso-personalizador">
+
+            <div class="progreso-paso activo">
+                <span>01</span>
+                <p>Prenda</p>
+            </div>
+
+            <div class="linea-progreso"></div>
+
+            <div class="progreso-paso">
+                <span>02</span>
+                <p>Diseño</p>
+            </div>
+
+            <div class="linea-progreso"></div>
+
+            <div class="progreso-paso">
+                <span>03</span>
+                <p>Detalles</p>
+            </div>
+
+            <div class="linea-progreso"></div>
+
+            <div class="progreso-paso">
+                <span>04</span>
+                <p>Listo</p>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             PASO 1 — PRENDA
+        ========================== -->
+
+        <section class="paso-personalizador">
+
+            <div class="titulo-personalizador">
+
+                <span>01 / PRENDA</span>
+
+                <h2>
+                    Elige tu
+                    <em>base.</em>
+                </h2>
+
+                <p>
+                    Esta será la prenda sobre la que construiremos tu diseño.
+                </p>
+
+            </div>
+
+
+            <div class="selector-prendas">
+
+                <button class="prenda-opcion seleccionado"
+                        data-producto="Oversize Essential">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/camiseta.png" alt="Oversize Essential">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Oversize Essential</strong>
+                        <span>$35.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Oversize Graphic">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/camiseta.png" alt="Oversize Graphic">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Oversize Graphic</strong>
+                        <span>$42.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Oversize Basic">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/camiseta.png" alt="Oversize Basic">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Oversize Basic</strong>
+                        <span>$32.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Baby Tee">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/prenda-top.png" alt="Baby Tee">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Baby Tee</strong>
+                        <span>$30.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Crop Oversize">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/prenda-top.png" alt="Crop Oversize">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Crop Oversize</strong>
+                        <span>$34.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Essential Hoodie">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/hoodie.png" alt="Essential Hoodie">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Essential Hoodie</strong>
+                        <span>$75.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Graphic Hoodie">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/hoodie.png" alt="Graphic Hoodie">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Graphic Hoodie</strong>
+                        <span>$85.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Premium Hoodie">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/hoodie.png" alt="Premium Hoodie">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Premium Hoodie</strong>
+                        <span>$95.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Zip Hoodie">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/hoodie.png" alt="Zip Hoodie">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Zip Hoodie</strong>
+                        <span>$88.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Cargo Classic">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/cargo.png" alt="Cargo Classic">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Cargo Classic</strong>
+                        <span>$70.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Cargo Wide">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/cargo.png" alt="Cargo Wide">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Cargo Wide</strong>
+                        <span>$78.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Cargo Urban">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/cargo.png" alt="Cargo Urban">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Cargo Urban</strong>
+                        <span>$82.000</span>
+                    </div>
+
+                </button>
+
+
+                <button class="prenda-opcion"
+                        data-producto="Parachute Pants">
+
+                    <div class="prenda-opcion-imagen">
+                        <img src="img/prenda-bottom.png" alt="Parachute Pants">
+                    </div>
+
+                    <div class="prenda-opcion-info">
+                        <strong>Parachute Pants</strong>
+                        <span>$80.000</span>
+                    </div>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PASO 2 — DISEÑO
+        ========================== -->
+
+        <section class="paso-personalizador">
+
+            <div class="titulo-personalizador">
+
+                <span>02 / DISEÑO</span>
+
+                <h2>
+                    Dale tu
+                    <em>firma.</em>
+                </h2>
+
+                <p>
+                    Escoge el gráfico que quieres llevar en tu prenda.
+                </p>
+
+            </div>
+
+
+            <div class="selector-disenos">
+
+                <button class="opcion-diseno seleccionado"
+                        data-diseno="Night City">
+
+                    <div class="opcion-diseno-imagen">
+                        <img src="img/night-city.png" alt="Night City">
+                    </div>
+
+                    <span>Night City</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Cross Heart">
+
+                    <div class="opcion-diseno-imagen">
+                        <img src="img/cross-heart.png" alt="Cross Heart">
+                    </div>
+
+                    <span>Cross Heart</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Smile Fade">
+
+                    <div class="opcion-diseno-imagen">
+                        <img src="img/smile-fade.png" alt="Smile Fade">
+                    </div>
+
+                    <span>Smile Fade</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Abstract Bloom">
+
+                    <div class="opcion-diseno-imagen">
+                        <img src="img/abstract-bloom.png" alt="Abstract Bloom">
+                    </div>
+
+                    <span>Abstract Bloom</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Star Signal">
+
+                    <div class="opcion-diseno-imagen">
+                        <img src="img/diseno_1_star.png" alt="Star Signal">
+                    </div>
+
+                    <span>Star Signal</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Flame Theory">
+
+                    <div class="opcion-diseno-imagen">
+                        <img src="img/diseno_3_flame.png" alt="Flame Theory">
+                    </div>
+
+                    <span>Flame Theory</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Butterfly Code">
+
+                    <div class="opcion-diseno-imagen emoji-diseno">
+                        🦋
+                    </div>
+
+                    <span>Butterfly Code</span>
+
+                </button>
+
+
+                <button class="opcion-diseno"
+                        data-diseno="Broken Heart">
+
+                    <div class="opcion-diseno-imagen emoji-diseno">
+                        💔
+                    </div>
+
+                    <span>Broken Heart</span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             EDITOR PRINCIPAL
+        ========================== -->
+
+        <section class="editor-personalizacion">
+
+            <!-- PREVIEW -->
+
+            <div class="preview-personalizacion">
+
+                <div class="preview-header">
+
+                    <div>
+                        <span>LIVE PREVIEW</span>
+                        <h2>Tu <em>UNDERTHING</em></h2>
+                    </div>
+
+                    <div class="preview-live">
+                        <span></span>
+                        EN VIVO
+                    </div>
+
+                </div>
+
+
+                <div class="preview-stage" id="preview-stage">
+
+                    <div class="preview-grid"></div>
+
+                    <div class="preview-decoracion decoracion-uno"></div>
+                    <div class="preview-decoracion decoracion-dos"></div>
+
+                    <!-- LOGO DEL EDITOR -->
+
+                    <div class="preview-logo">
+                        UNDERTHING
+                    </div>
+
+
+                    <!-- PRENDA -->
+
+                    <div class="preview-prenda-wrapper">
+
+                        <img
+                            id="preview-prenda"
+                            class="preview-prenda"
+                            src="img/camiseta.png"
+                            alt="Vista previa de prenda"
+                        >
+
+
+                        <!-- DISEÑO SOBRE LA PRENDA -->
+
+                        <div
+                            id="preview-diseno-layer"
+                            class="preview-diseno-layer posicion-centro"
+                        >
+
+                            <img
+                                id="preview-diseno"
+                                class="preview-diseno"
+                                src="img/night-city.png"
+                                alt="Diseño seleccionado"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ETIQUETA DE POSICIÓN -->
+
+                    <div class="preview-location-tag">
+                        <span>POSICIÓN</span>
+                        <strong id="ubicacion-actual">Centro</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTROLES -->
+
+            <aside class="controles-personalizacion">
+
+                <!-- COLOR -->
+
+                <div class="widget-personalizacion">
+
+                    <div class="widget-titulo">
+
+                        <div>
+                            <span>03A</span>
+                            <h3>Color</h3>
+                        </div>
+
+                        <small id="color-actual">Negro</small>
+
+                    </div>
+
+
+                    <div class="selector-colores">
+
+                        <button
+                            class="color-opcion color-negro seleccionado"
+                            data-color="Negro"
+                            aria-label="Negro">
+                        </button>
+
+                        <button
+                            class="color-opcion color-blanco"
+                            data-color="Blanco"
+                            aria-label="Blanco">
+                        </button>
+
+                        <button
+                            class="color-opcion color-rosa"
+                            data-color="Rosa"
+                            aria-label="Rosa">
+                        </button>
+
+                        <button
+                            class="color-opcion color-azul"
+                            data-color="Azul"
+                            aria-label="Azul">
+                        </button>
+
+                        <button
+                            class="color-opcion color-verde"
+                            data-color="Verde"
+                            aria-label="Verde">
+                        </button>
+
+                        <button
+                            class="color-opcion color-beige"
+                            data-color="Beige"
+                            aria-label="Beige">
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TALLA -->
+
+                <div class="widget-personalizacion">
+
+                    <div class="widget-titulo">
+
+                        <div>
+                            <span>03B</span>
+                            <h3>Talla</h3>
+                        </div>
+
+                        <small id="talla-actual">M</small>
+
+                    </div>
+
+
+                    <div class="selector-tallas">
+
+                        <button class="talla-opcion" data-talla="XS">
+                            XS
+                        </button>
+
+                        <button class="talla-opcion" data-talla="S">
+                            S
+                        </button>
+
+                        <button class="talla-opcion seleccionado" data-talla="M">
+                            M
+                        </button>
+
+                        <button class="talla-opcion" data-talla="L">
+                            L
+                        </button>
+
+                        <button class="talla-opcion" data-talla="XL">
+                            XL
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- UBICACIÓN -->
+
+                <div class="widget-personalizacion">
+
+                    <div class="widget-titulo">
+
+                        <div>
+                            <span>03C</span>
+                            <h3>Ubicación</h3>
+                        </div>
+
+                        <small id="ubicacion-label">Centro</small>
+
+                    </div>
+
+
+                    <p class="widget-ayuda">
+                        ¿Dónde quieres tu diseño?
+                    </p>
+
+
+                    <div class="selector-ubicacion">
+
+                        <button
+                            class="ubicacion-opcion seleccionado"
+                            data-ubicacion="Centro">
+
+                            <span class="ubicacion-icono">✦</span>
+                            <span>Centro</span>
+
+                        </button>
+
+
+                        <button
+                            class="ubicacion-opcion"
+                            data-ubicacion="Pecho">
+
+                            <span class="ubicacion-icono">♡</span>
+                            <span>Pecho</span>
+
+                        </button>
+
+
+                        <button
+                            class="ubicacion-opcion"
+                            data-ubicacion="Abajo">
+
+                            <span class="ubicacion-icono">↓</span>
+                            <span>Abajo</span>
+
+                        </button>
+
+
+                        <button
+                            class="ubicacion-opcion"
+                            data-ubicacion="Lateral">
+
+                            <span class="ubicacion-icono">→</span>
+                            <span>Lateral</span>
+
+                        </button>
+
+
+                        <button
+                            class="ubicacion-opcion"
+                            data-ubicacion="Espalda">
+
+                            <span class="ubicacion-icono">↻</span>
+                            <span>Espalda</span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CANTIDAD -->
+
+                <div class="widget-personalizacion cantidad-widget">
+
+                    <div class="widget-titulo">
+
+                        <div>
+                            <span>03D</span>
+                            <h3>Cantidad</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="cantidad-selector">
+
+                        <button id="personalizacion-menos">
+                            −
+                        </button>
+
+                        <input
+                            id="personalizacion-cantidad"
+                            type="number"
+                            min="1"
+                            max="20"
+                            value="1"
+                        >
+
+                        <button id="personalizacion-mas">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESUMEN -->
+
+                <div class="resumen-personalizacion">
+
+                    <div class="resumen-linea">
+                        <span>Prenda</span>
+                        <strong id="resumen-prenda">
+                            Oversize Essential
+                        </strong>
+                    </div>
+
+                    <div class="resumen-linea">
+                        <span>Diseño</span>
+                        <strong id="resumen-diseno">
+                            Night City
+                        </strong>
+                    </div>
+
+                    <div class="resumen-linea">
+                        <span>Color</span>
+                        <strong id="resumen-color">
+                            Negro
+                        </strong>
+                    </div>
+
+                    <div class="resumen-linea">
+                        <span>Talla</span>
+                        <strong id="resumen-talla">
+                            M
+                        </strong>
+                    </div>
+
+                    <div class="resumen-linea">
+                        <span>Ubicación</span>
+                        <strong id="resumen-ubicacion">
+                            Centro
+                        </strong>
+                    </div>
+
+                    <div class="resumen-total">
+
+                        <span>Total</span>
+
+                        <strong id="resumen-precio">
+                            $35.000
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn btn-principal btn-agregar-personalizado"
+                    id="agregar-personalizado">
+
+                    Añadir al carrito
+                    <span>→</span>
+
+                </button>
+
+
+                <p class="nota-personalizacion">
+                    ✦ Tu diseño se guarda automáticamente mientras personalizas.
+                </p>
+
+            </aside>
+
+        </section>
+
+
+        <!-- =========================
+             MINI FEATURES
+        ========================== -->
+
+        <section class="mini-features">
+
+            <div class="mini-feature">
+
+                <span>✦</span>
+
+                <div>
+                    <strong>Diseño personalizado</strong>
+                    <p>Hazlo completamente tuyo.</p>
+                </div>
+
+            </div>
+
+
+            <div class="mini-feature">
+
+                <span>◌</span>
+
+                <div>
+                    <strong>Vista previa</strong>
+                    <p>Ve tu elección antes de comprar.</p>
+                </div>
+
+            </div>
+
+
+            <div class="mini-feature">
+
+                <span>♡</span>
+
+                <div>
+                    <strong>Hecho para ti</strong>
+                    <p>Elige cada pequeño detalle.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         CARRITO
+    ========================== -->
+
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="carrito-drawer" id="carrito-drawer">
+
+        <div class="carrito-header">
+
+            <div>
+                <span>YOUR BAG</span>
+                <h2>Tu carrito</h2>
+            </div>
+
+            <button id="cerrar-carrito" class="cerrar-carrito">
+                ×
+            </button>
+
+        </div>
+
+
+        <div id="carrito-items" class="carrito-items">
+
+            <div class="carrito-vacio">
+
+                <span>♡</span>
+
+                <h3>Tu carrito está vacío</h3>
+
+                <p>
+                    Empieza a crear algo que sea muy tú.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="carrito-footer">
+
+            <div class="carrito-total">
+
+                <span>Total</span>
+
+                <strong id="carrito-total">
+                    $0
+                </strong>
+
+            </div>
+
+            <button
+                class="btn btn-principal"
+                id="abrir-checkout">
+
+                Finalizar compra
+                <span>→</span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         CHECKOUT
+    ========================== -->
+
+    <div class="checkout-overlay" id="checkout-overlay">
+
+        <div class="checkout-box">
+
+            <button
+                class="checkout-cerrar"
+                id="cerrar-checkout">
+                ×
+            </button>
+
+
+            <div class="checkout-titulo">
+
+                <span>UNDERTHING</span>
+
+                <h2>
+                    Casi
+                    <em>tuyo.</em>
+                </h2>
+
+                <p>
+                    Déjanos tus datos para completar tu pedido.
+                </p>
+
+            </div>
+
+
+            <form id="checkout-form">
+
+                <div class="form-grupo">
+
+                    <label for="nombre-checkout">
+                        Nombre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre-checkout"
+                        required
+                        placeholder="Tu nombre"
+                    >
+
+                </div>
+
+
+                <div class="form-grupo">
+
+                    <label for="telefono-checkout">
+                        Teléfono
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="telefono-checkout"
+                        required
+                        placeholder="300 000 0000"
+                    >
+
+                </div>
+
+
+                <div class="form-grupo">
+
+                    <label for="direccion-checkout">
+                        Dirección
+                    </label>
+
+                    <input
+                        type="text"
+                        id="direccion-checkout"
+                        required
+                        placeholder="Tu dirección"
+                    >
+
+                </div>
+
+
+                <div class="form-grupo">
+
+                    <label for="metodo-checkout">
+                        Método de pago
+                    </label>
+
+                    <select id="metodo-checkout" required>
+
+                        <option value="">
+                            Selecciona una opción
+                        </option>
+
+                        <option value="transferencia">
+                            Transferencia
+                        </option>
+
+                        <option value="contraentrega">
+                            Contraentrega
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-principal">
+
+                    Confirmar pedido
+                    <span>→</span>
+
+                </button>
+
+            </form>
+
+        </div>
+
     </div>
 
 
-    <nav>
+    <!-- =========================
+         ASISTENTE
+    ========================== -->
 
-        <ul>
+    <button
+        class="asistente-boton"
+        id="asistente-boton"
+        aria-label="Abrir asistente">
 
-            <li>
-                <a href="index.html">
-                    Inicio
-                </a>
-            </li>
+        ✦
 
-            <li>
-                <a href="productos.html">
-                    Productos
-                </a>
-            </li>
-
-            <li>
-                <a href="diseños.html">
-                    Diseños
-                </a>
-            </li>
-
-            <li>
-                <a href="index.html#nosotros">
-                    Nosotros
-                </a>
-            </li>
-
-            <li>
-                <a href="index.html#contacto">
-                    Contacto
-                </a>
-            </li>
-
-        </ul>
-
-    </nav>
-
-</header>
+    </button>
 
 
-<!-- =========================
-     HERO DISEÑOS
-========================= -->
+    <div class="asistente-panel" id="asistente-panel">
 
-<section class="disenos-hero">
+        <div class="asistente-header">
 
-    <p class="mini-titulo">
-        MAKE IT YOURS
-    </p>
+            <div>
 
-    <h1>
-        Diseña algo que sea tuyo.
-    </h1>
+                <span>UNDERTHING AI</span>
 
-    <p>
-        Elige tu estilo, encuentra tu diseño favorito
-        y dale personalidad a tu prenda.
-    </p>
+                <strong>Tu asistente</strong>
 
-</section>
+            </div>
+
+            <button id="cerrar-asistente">
+                ×
+            </button>
+
+        </div>
 
 
-<!-- =========================
-     SELECTOR
-========================= -->
+        <div class="asistente-mensajes" id="asistente-mensajes">
 
-<section class="selector-prenda">
+            <div class="mensaje-asistente">
+                <span>✦</span>
+                <p>
+                    Holaaa ♡ ¿No sabes qué diseño elegir?
+                    Cuéntame qué vibe quieres y te ayudo.
+                </p>
+            </div>
 
-    <div class="titulo-seccion">
+        </div>
 
-        <p class="mini-titulo">
-            CHOOSE YOUR STYLE
-        </p>
 
-        <h2>
-            ¿Qué quieres personalizar?
-        </h2>
+        <form class="asistente-form" id="asistente-form">
+
+            <input
+                type="text"
+                id="asistente-input"
+                placeholder="Escribe algo..."
+                autocomplete="off"
+            >
+
+            <button type="submit">
+                →
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         NOTIFICACIONES
+    ========================== -->
+
+    <div id="notificacion" class="notificacion"></div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-logo">
+            UNDERTHING
+        </div>
 
         <p>
-            Elige una prenda para comenzar.
+            Wear your thing.
         </p>
 
-    </div>
+        <span>
+            © 2026 UNDERTHING
+        </span>
 
+    </footer>
 
-    <div class="prendas-selector">
 
-
-        <div class="prenda-opcion">
-
-            <span>👕</span>
-
-            <strong>
-                Oversize
-            </strong>
-
-            <small>
-                Camisetas amplias
-            </small>
-
-        </div>
-
-
-        <div class="prenda-opcion">
-
-            <span>🧥</span>
-
-            <strong>
-                Hoodie
-            </strong>
-
-            <small>
-                Comodidad y actitud
-            </small>
-
-        </div>
-
-
-        <div class="prenda-opcion">
-
-            <span>👖</span>
-
-            <strong>
-                Cargo
-            </strong>
-
-            <small>
-                Streetwear
-            </small>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     GALERÍA
-========================= -->
-
-<section class="galeria-disenos">
-
-    <div class="titulo-seccion">
-
-        <p class="mini-titulo">
-            OUR DESIGNS
-        </p>
-
-        <h2>
-            Nuestros diseños
-        </h2>
-
-        <p>
-            Elige tu favorito o crea uno propio.
-        </p>
-
-    </div>
-
-
-    <div class="disenos-grid">
-
-
-        <!-- DISEÑO 1 -->
-
-        <article class="diseno-card">
-
-            <div class="diseno-placeholder">
-
-                <img
-                    src="img/night-city.png"
-                    alt="Diseño Night City"
-                    style="width:100%; height:100%; object-fit:cover;"
-                >
-
-            </div>
-
-            <div class="diseno-info">
-
-                <span>
-                    01 · DESIGN
-                </span>
-
-                <h3>
-                    Night City
-                </h3>
-
-                <p>
-                    Un diseño urbano con una vibra
-                    nocturna y diferente.
-                </p>
-
-                <a href="#" class="btn">
-                    Elegir diseño →
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- DISEÑO 2 -->
-
-        <article class="diseno-card">
-
-            <div class="diseno-placeholder">
-
-                <img
-                    src="img/cross-heart.png"
-                    alt="Diseño Cross Heart"
-                    style="width:100%; height:100%; object-fit:cover;"
-                >
-
-            </div>
-
-            <div class="diseno-info">
-
-                <span>
-                    02 · DESIGN
-                </span>
-
-                <h3>
-                    Cross Heart
-                </h3>
-
-                <p>
-                    Una mezcla de corazón y actitud
-                    para destacar.
-                </p>
-
-                <a href="#" class="btn">
-                    Elegir diseño →
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- DISEÑO 3 -->
-
-        <article class="diseno-card">
-
-            <div class="diseno-placeholder">
-
-                <img
-                    src="img/smile-fade.png"
-                    alt="Diseño Smile Fade"
-                    style="width:100%; height:100%; object-fit:cover;"
-                >
-
-            </div>
-
-            <div class="diseno-info">
-
-                <span>
-                    03 · DESIGN
-                </span>
-
-                <h3>
-                    Smile Fade
-                </h3>
-
-                <p>
-                    Una expresión divertida con
-                    un toque rebelde.
-                </p>
-
-                <a href="#" class="btn">
-                    Elegir diseño →
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- DISEÑO 4 -->
-
-        <article class="diseno-card">
-
-            <div class="diseno-placeholder">
-
-                <img
-                    src="img/abstract-bloom.png"
-                    alt="Diseño Abstract Bloom"
-                    style="width:100%; height:100%; object-fit:cover;"
-                >
-
-            </div>
-
-            <div class="diseno-info">
-
-                <span>
-                    04 · DESIGN
-                </span>
-
-                <h3>
-                    Abstract Bloom
-                </h3>
-
-                <p>
-                    Un diseño artístico para quienes
-                    quieren algo diferente.
-                </p>
-
-                <a href="#" class="btn">
-                    Elegir diseño →
-                </a>
-
-            </div>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     PERSONALIZACIÓN
-========================= -->
-
-<section class="personalizacion">
-
-    <p class="mini-titulo">
-        YOUR IDEA
-    </p>
-
-    <h2>
-        ¿Tienes tu propio diseño?
-    </h2>
-
-    <p>
-        Más adelante podrás crear y personalizar
-        tus propios diseños para llevarlos en
-        tus prendas favoritas.
-    </p>
-
-    <a href="#" class="btn">
-        Crear mi diseño ✦
-    </a>
-
-</section>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-    <p>
-        © 2026 UNDERTHING | Todos los derechos reservados.
-    </p>
-
-</footer>
-
+    <script src="js/script.js"></script>
 
 </body>
-
 </html>

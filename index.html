@@ -2,355 +2,597 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Under Thing</title>
+    <title>UNDERTHING | Urban Wear</title>
 
     <link rel="icon" type="image/png" href="img/Logo.png">
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,600;1,6..96,700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
 
-<header>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="logo">
-        <a href="index.html">
-            <img src="img/Logo.png" alt="Logo UNDERTHING">
-        </a>
-    </div>
+    <header class="site-header">
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="productos.html">Productos</a></li>
-            <li><a href="diseños.html">Diseños</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+        <div class="logo">
+            <a href="index.html">
+                <img src="img/Logo.png" alt="Logo UNDERTHING">
+            </a>
+        </div>
 
-</header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.html" class="activo">Inicio</a>
+                </li>
 
+                <li>
+                    <a href="productos.html">Productos</a>
+                </li>
 
-<!-- =========================
-     HERO
-========================= -->
+                <li>
+                    <a href="diseños.html">Diseños</a>
+                </li>
 
-<section id="inicio">
+                <li>
+                    <a href="index.html#nosotros">Nosotros</a>
+                </li>
 
-    <p class="mini-titulo">UNDERTHING · URBAN WEAR</p>
+                <li>
+                    <a href="index.html#contacto">Contacto</a>
+                </li>
+            </ul>
+        </nav>
 
-    <h1>UNDERTHING</h1>
-
-    <p>
-        Secretly soft under your layers...
-    </p>
-
-    <div class="botones">
-
-        <a href="productos.html" class="btn">
-            Explorar colección
-        </a>
-
-        <a href="diseños.html" class="btn">
-            Diseña tu prenda ✦
-        </a>
-
-    </div>
-
-</section>
+    </header>
 
 
-<!-- =========================
-     PRESENTACIÓN
-========================= -->
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
-<section class="presentacion">
+    <main>
 
-    <div class="presentacion-texto">
+        <section class="hero-home">
 
-        <p class="mini-titulo">MORE THAN CLOTHES</p>
+            <div class="hero-home-content">
 
-        <h2>Tu estilo habla<br>antes que tú.</h2>
+                <p class="mini-titulo">
+                    UNDERTHING · URBAN WEAR
+                </p>
 
-        <p>
-            En UnderThing creemos que vestir no se trata
-            solamente de llevar ropa. Se trata de expresar
-            quién eres, qué te gusta y cómo quieres sentirte.
-        </p>
+                <h1>
+                    WEAR
+                    <span>YOUR</span>
+                    STORY.
+                </h1>
 
-        <a href="#nosotros" class="btn">
-            Conoce nuestra historia →
-        </a>
+                <p class="hero-home-texto">
+                    Ropa urbana, diseños únicos y prendas
+                    hechas para que tu estilo hable por ti.
+                </p>
 
-    </div>
+                <div class="botones">
 
+                    <a href="productos.html" class="btn">
+                        Explorar colección
+                    </a>
 
-    <div class="hero-card">
+                    <a href="diseños.html" class="btn btn-secundario">
+                        Diseña tu prenda ✦
+                    </a>
 
-        <img
-            src="img/complemento.png"
-            alt="Complemento UNDERTHING"
-        >
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     PRODUCTOS DESTACADOS
-========================= -->
-
-<section class="destacados">
-
-    <div class="titulo-seccion">
-
-        <p class="mini-titulo">THE COLLECTION</p>
-
-        <h2>Lo esencial de UNDERTHING</h2>
-
-        <p>
-            Descubre nuestras prendas y encuentra
-            la que mejor representa tu estilo.
-        </p>
-
-    </div>
-
-
-    <div class="destacados-grid">
-
-
-        <!-- OVERSIZE -->
-
-        <article class="destacado-card">
-
-            <div class="destacado-icon">
-
-                <img
-                    src="img/prenda-top.png"
-                    alt="Prenda Oversize"
-                    style="width:100%; height:100%; object-fit:contain;"
-                >
+                </div>
 
             </div>
 
-            <div>
 
-                <span>01 · TOP</span>
+            <div class="hero-home-decoration">
 
-                <h3>Oversize</h3>
+                <div class="hero-circulo hero-circulo-1"></div>
+                <div class="hero-circulo hero-circulo-2"></div>
 
-                <p>
-                    Siluetas amplias y diseños
-                    pensados para destacar.
+                <div class="hero-imagen">
+
+                    <img
+                        src="img/night-city.png"
+                        alt="Diseño urbano UNDERTHING"
+                    >
+
+                </div>
+
+                <span class="hero-texto-decorativo">
+                    UNDERTHING ✦
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PRESENTACIÓN
+        ====================================================== -->
+
+        <section class="presentacion">
+
+            <div class="presentacion-card">
+
+                <div class="presentacion-texto">
+
+                    <p class="mini-titulo">
+                        MORE THAN CLOTHES
+                    </p>
+
+                    <h2>
+                        Tu estilo habla
+                        <br>
+                        antes que tú.
+                    </h2>
+
+                    <p>
+                        En UNDERTHING creemos que vestirse no se trata
+                        solamente de llevar ropa. Se trata de expresar
+                        quién eres, qué te gusta y cómo quieres sentirte.
+                    </p>
+
+                    <p>
+                        Por eso creamos prendas urbanas que puedes
+                        adaptar a tu propia personalidad.
+                    </p>
+
+                    <a href="#nosotros" class="btn">
+                        Conoce nuestra historia →
+                    </a>
+
+                </div>
+
+
+                <div class="presentacion-imagen">
+
+                    <img
+                        src="img/complemento.png"
+                        alt="Complemento de moda UNDERTHING"
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             COLECCIÓN DESTACADA
+        ====================================================== -->
+
+        <section class="destacados">
+
+            <div class="titulo-seccion">
+
+                <p class="mini-titulo">
+                    THE COLLECTION
                 </p>
 
-                <a href="productos.html#oversize">
-                    Explorar →
+                <h2>
+                    Lo esencial de UNDERTHING
+                </h2>
+
+                <p>
+                    Prendas urbanas para crear looks que
+                    se sientan completamente tuyos.
+                </p>
+
+            </div>
+
+
+            <div class="destacados-grid">
+
+                <!-- TOP -->
+
+                <article class="destacado-card">
+
+                    <div class="destacado-icon">
+
+                        <img
+                            src="img/prenda-top.png"
+                            alt="Prendas superiores UNDERTHING"
+                        >
+
+                    </div>
+
+                    <div class="destacado-info">
+
+                        <span>
+                            01 · TOP
+                        </span>
+
+                        <h3>
+                            Oversize
+                        </h3>
+
+                        <p>
+                            Siluetas amplias y diseños pensados
+                            para destacar sin esfuerzo.
+                        </p>
+
+                        <a href="productos.html#oversize">
+                            Explorar →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- HOODIES -->
+
+                <article class="destacado-card">
+
+                    <div class="destacado-icon">
+
+                        <img
+                            src="img/prenda-layer.png"
+                            alt="Hoodies UNDERTHING"
+                        >
+
+                    </div>
+
+                    <div class="destacado-info">
+
+                        <span>
+                            02 · LAYER
+                        </span>
+
+                        <h3>
+                            Hoodies
+                        </h3>
+
+                        <p>
+                            Comodidad, personalidad y actitud
+                            para cualquier momento.
+                        </p>
+
+                        <a href="productos.html#hoodies">
+                            Explorar →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CARGO -->
+
+                <article class="destacado-card">
+
+                    <div class="destacado-icon">
+
+                        <img
+                            src="img/prenda-bottom.png"
+                            alt="Pantalones cargo UNDERTHING"
+                        >
+
+                    </div>
+
+                    <div class="destacado-info">
+
+                        <span>
+                            03 · BOTTOM
+                        </span>
+
+                        <h3>
+                            Cargo
+                        </h3>
+
+                        <p>
+                            Streetwear con personalidad propia
+                            y una vibra completamente urbana.
+                        </p>
+
+                        <a href="productos.html#cargos">
+                            Explorar →
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <div class="centrar">
+
+                <a href="productos.html" class="btn">
+                    Ver todos los productos →
                 </a>
 
             </div>
 
-        </article>
+        </section>
 
 
-        <!-- HOODIES -->
+        <!-- =====================================================
+             PERSONALIZADOR
+        ====================================================== -->
 
-        <article class="destacado-card">
+        <section class="seccion-disenos">
 
-            <div class="destacado-icon">
+            <div class="seccion-disenos-texto">
 
-                <img
-                    src="img/prenda-layer.png"
-                    alt="Hoodie"
-                    style="width:100%; height:100%; object-fit:contain;"
-                >
-
-            </div>
-
-            <div>
-
-                <span>02 · LAYER</span>
-
-                <h3>Hoodies</h3>
-
-                <p>
-                    Comodidad y actitud para
-                    cualquier momento.
+                <p class="mini-titulo">
+                    MAKE IT YOURS
                 </p>
 
-                <a href="productos.html#hoodies">
-                    Explorar →
+                <h2>
+                    No tienes que vestir
+                    <br>
+                    como todos.
+                </h2>
+
+                <p>
+                    Elige una prenda, selecciona un diseño
+                    y crea algo que sea realmente tuyo.
+                </p>
+
+                <p>
+                    Tú eliges la combinación.
+                    UNDERTHING la convierte en tu estilo.
+                </p>
+
+                <a href="diseños.html" class="btn">
+                    Crear mi prenda ✦
                 </a>
 
             </div>
 
-        </article>
 
+            <div class="disenos-decoracion">
 
-        <!-- CARGO -->
+                <div class="diseno-mini diseno-mini-1">
 
-        <article class="destacado-card">
+                    <img
+                        src="img/diseno_1_star.png"
+                        alt="Diseño Star Signal"
+                    >
 
-            <div class="destacado-icon">
+                </div>
 
-                <img
-                    src="img/prenda-bottom.png"
-                    alt="Cargo"
-                    style="width:100%; height:100%; object-fit:contain;"
-                >
+                <div class="diseno-mini diseno-mini-2">
+
+                    <img
+                        src="img/diseno_2_heart.png"
+                        alt="Diseño Heart"
+                    >
+
+                </div>
+
+                <div class="diseno-mini diseno-mini-3">
+
+                    <img
+                        src="img/diseno_3_flame.png"
+                        alt="Diseño Flame"
+                    >
+
+                </div>
 
             </div>
 
-            <div>
+        </section>
 
-                <span>03 · BOTTOM</span>
 
-                <h3>Cargo</h3>
+        <!-- =====================================================
+             EXPERIENCIA
+        ====================================================== -->
 
-                <p>
-                    Streetwear con personalidad
-                    propia.
+        <section class="experiencia">
+
+            <div class="titulo-seccion">
+
+                <p class="mini-titulo">
+                    WHY UNDERTHING?
                 </p>
 
-                <a href="productos.html#cargos">
-                    Explorar →
+                <h2>
+                    Diseñado para ti.
+                </h2>
+
+            </div>
+
+
+            <div class="experiencia-grid">
+
+                <article class="experiencia-card">
+
+                    <div class="experiencia-numero">
+                        01
+                    </div>
+
+                    <h3>
+                        Tu estilo
+                    </h3>
+
+                    <p>
+                        Prendas pensadas para que puedas
+                        expresarte sin seguir reglas.
+                    </p>
+
+                </article>
+
+
+                <article class="experiencia-card">
+
+                    <div class="experiencia-numero">
+                        02
+                    </div>
+
+                    <h3>
+                        Personalización
+                    </h3>
+
+                    <p>
+                        Combina prendas y diseños para
+                        crear algo completamente tuyo.
+                    </p>
+
+                </article>
+
+
+                <article class="experiencia-card">
+
+                    <div class="experiencia-numero">
+                        03
+                    </div>
+
+                    <h3>
+                        Actitud
+                    </h3>
+
+                    <p>
+                        Porque una buena prenda no solo
+                        se ve bien. También se siente bien.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             NOSOTROS
+        ====================================================== -->
+
+        <section id="nosotros" class="seccion-info">
+
+            <div>
+
+                <p class="mini-titulo">
+                    OUR STORY
+                </p>
+
+                <h2>
+                    Sobre UNDERTHING
+                </h2>
+
+            </div>
+
+
+            <div class="seccion-info-texto">
+
+                <p>
+                    UNDERTHING nace de una idea sencilla:
+                    la ropa puede ser mucho más que algo
+                    que usamos todos los días.
+                </p>
+
+                <p>
+                    Es una forma de mostrar nuestra personalidad,
+                    nuestros gustos y nuestra manera de ver el mundo.
+                </p>
+
+                <p>
+                    Creamos una propuesta de moda urbana moderna,
+                    cómoda y creativa, pensada para quienes quieren
+                    construir su propio estilo.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONTACTO
+        ====================================================== -->
+
+        <section id="contacto" class="contacto">
+
+            <div class="contacto-contenido">
+
+                <p class="mini-titulo">
+                    GET IN TOUCH
+                </p>
+
+                <h2>
+                    Hablemos.
+                </h2>
+
+                <p>
+                    ¿Tienes una idea para una prenda?
+                    ¿Quieres contarnos algo?
+                </p>
+
+                <div class="contacto-datos">
+
+                    <p>
+                        📍 Bogotá, Colombia
+                    </p>
+
+                    <p>
+                        📧 contacto@underthing.com
+                    </p>
+
+                    <p>
+                        📱 +57 304 4520 101
+                    </p>
+
+                </div>
+
+                <a href="mailto:contacto@underthing.com" class="btn">
+                    Escríbenos →
                 </a>
 
             </div>
 
-        </article>
+        </section>
+
+    </main>
 
 
-    </div>
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
+    <footer>
 
-    <div class="centrar">
-
-        <a href="productos.html" class="btn">
-            Ver todos los productos →
-        </a>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     DISEÑOS
-========================= -->
-
-<section class="seccion-disenos">
-
-    <div>
-
-        <p class="mini-titulo">MAKE IT YOURS</p>
-
-        <h2>No tienes que vestir<br>como todos.</h2>
+        <div class="footer-logo">
+            UNDERTHING
+        </div>
 
         <p>
-            Elige una prenda, selecciona un diseño
-            y crea algo que sea realmente tuyo.
+            Secretly soft under your layers...
         </p>
 
-        <a href="diseños.html" class="btn">
-            Explorar diseños ✦
-        </a>
+        <p>
+            © 2026 UNDERTHING · Todos los derechos reservados.
+        </p>
 
-    </div>
-
-
-    <!-- 3 DISEÑOS -->
-
-    <div class="disenos-decoracion">
-
-        <span>
-            <img
-                src="img/diseno_1_star.png"
-                alt="Diseño Night"
-                style="width:100%; height:100%; object-fit:cover; border-radius:25px;"
-            >
-        </span>
-
-        <span>
-            <img
-                src="img/diseno_2_heart.png"
-                alt="Diseño Heart"
-                style="width:100%; height:100%; object-fit:cover; border-radius:25px;"
-            >
-        </span>
-
-        <span>
-            <img
-                src="img/diseno_3_flame.png"
-                alt="Diseño Flame"
-                style="width:100%; height:100%; object-fit:cover; border-radius:25px;"
-            >
-        </span>
-
-    </div>
-
-</section>
+    </footer>
 
 
-<!-- =========================
-     NOSOTROS
-========================= -->
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
-<section id="nosotros">
-
-    <p class="mini-titulo">OUR STORY</p>
-
-    <h2>Sobre UNDERTHING</h2>
-
-    <p>
-        En UnderThing creemos que la ropa expresa personalidad.
-        Creamos prendas urbanas modernas, cómodas y con identidad
-        propia, pensadas para quienes quieren destacar con estilo.
-        Nuestros diseños buscan darte la seguridad de sentirte
-        tú mismo en cada momento.
-    </p>
-
-</section>
-
-
-<!-- =========================
-     CONTACTO
-========================= -->
-
-<section id="contacto">
-
-    <p class="mini-titulo">GET IN TOUCH</p>
-
-    <h2>Hablemos.</h2>
-
-    <p>📍 Bogotá, Colombia</p>
-
-    <p>📧 contacto@underthing.com</p>
-
-    <p>📱 +57 304 4520 101</p>
-
-</section>
-
-
-<footer>
-
-    <p>
-        © 2026 UNDERTHING | Todos los derechos reservados.
-    </p>
-
-</footer>
+    <script src="js/script.js"></script>
 
 </body>
 
