@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi cuenta | VOID WEAR</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400;1,6..96,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .cuenta-contenedor {
+            min-height: 85vh;
+            display: grid;
+            place-items: center;
+            padding: 50px 20px;
+            background: #FFF9F5;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cuenta-card {
+            width: 100%;
+            max-width: 460px;
+            padding: 42px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 40px #743A5815;
+        }
+
+        .cuenta-card h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #743A58;
+        }
+
+        .cuenta-card h1 em {
+            font-family: 'Bodoni Moda', serif;
+        }
+
+        .cuenta-descripcion {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+
+        .cuenta-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .cuenta-tabs button {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #F8DCEB;
+            background: white;
+            color: #743A58;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .cuenta-tabs button.activo {
+            background: #E85D9E;
+            color: white;
+        }
+
+        .cuenta-formulario {
+            display: none;
+        }
+
+        .cuenta-formulario.activo {
+            display: block;
+        }
+
+        .cuenta-grupo {
+            margin-bottom: 18px;
+        }
+
+        .cuenta-grupo label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #743A58;
+        }
+
+        .cuenta-grupo input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #EAD8E1;
+            border-radius: 8px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .cuenta-grupo input:focus {
+            border-color: #E85D9E;
+        }
+
+        .cuenta-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #E85D9E;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cuenta-submit:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        .cuenta-enlace {
+            display: block;
+            margin-top: 18px;
+            text-align: center;
+            color: #C94F87;
+            font-size: 12px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+        }
+
+        #cuenta-mensaje {
+            margin-top: 18px;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .cuenta-volver {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #743A58;
+            font-size: 12px;
+        }
+
+        @media(max-width: 480px) {
+            .cuenta-card {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a href="index.html" class="logo">
+        <img src="img/Logo.png" alt="VOID WEAR">
+    </a>
+
+    <nav class="site-nav">
+        <a href="index.html">Inicio</a>
+        <a href="productos.html">Productos</a>
+        <a href="diseños.html">Diseños</a>
+    </nav>
+</header>
+
+<main class="cuenta-contenedor">
+
+    <section class="cuenta-card">
+
+        <span class="mini-etiqueta">WELCOME TO VOID WEAR</span>
+
+        <h1>Tu espacio <em>personal.</em></h1>
+
+        <p class="cuenta-descripcion">
+            Crea tu cuenta y guarda tus diseños,
+            favoritos y pedidos.
+        </p>
+
+        <div class="cuenta-tabs">
+            <button type="button" class="activo" id="tab-login">
+                Iniciar sesión
+            </button>
+
+            <button type="button" id="tab-registro">
+                Registrarme
+            </button>
+        </div>
+
+        <!-- INICIAR SESIÓN -->
+
+        <form id="form-login" class="cuenta-formulario activo">
+
+            <div class="cuenta-grupo">
+                <label for="login-email">Correo electrónico</label>
+                <input type="email" id="login-email" required>
+            </div>
+
+            <div class="cuenta-grupo">
+                <label for="login-password">Contraseña</label>
+                <input type="password" id="login-password" required>
+            </div>
+
+            <button class="cuenta-submit" type="submit">
+                Entrar a mi cuenta →
+            </button>
+
+            <button class="cuenta-enlace" type="button" id="recuperar-password">
+                ¿Olvidaste tu contraseña?
+            </button>
+
+        </form>
+
+        <!-- REGISTRO -->
+
+        <form id="form-registro" class="cuenta-formulario">
+
+            <div class="cuenta-grupo">
+                <label for="registro-nombre">Nombre completo</label>
+                <input type="text" id="registro-nombre" required>
+            </div>
+
+            <div class="cuenta-grupo">
+                <label for="registro-email">Correo electrónico</label>
+                <input type="email" id="registro-email" required>
+            </div>
+
+            <div class="cuenta-grupo">
+                <label for="registro-password">Contraseña</label>
+                <input type="password" id="registro-password"
+                       minlength="8" required>
+            </div>
+
+            <button class="cuenta-submit" type="submit">
+                Crear mi cuenta →
+            </button>
+
+        </form>
+
+        <p id="cuenta-mensaje" aria-live="polite"></p>
+
+        <a href="index.html" class="cuenta-volver">
+            ← Volver a VOID WEAR
+        </a>
+
+    </section>
+
+</main>
+
+<div id="notificacion" class="notificacion"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/cuenta.js"></script>
+
+</body>
+</html>

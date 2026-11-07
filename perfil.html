@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi cuenta | VOID WEAR</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <a href="index.html" class="logo">
+        <img src="img/Logo.png" alt="VOID WEAR">
+    </a>
+
+    <nav class="site-nav">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="diseños.html">Diseños</a></li>
+            <li><a href="perfil.html" class="activo">Mi cuenta</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+<main class="perfil-pagina">
+
+    <section class="perfil-hero">
+        <span class="mini-titulo">TU ESPACIO PERSONAL</span>
+        <h1>YOUR WORLD.<br><em>YOUR STYLE.</em></h1>
+        <p>Tu cuenta, tus diseños y tu forma de expresarte.</p>
+    </section>
+
+    <section class="perfil-contenido">
+
+        <div class="perfil-bienvenida">
+            <div>
+                <span class="mini-etiqueta">BIENVENIDO A VOID WEAR</span>
+                <h2 id="nombre-bienvenida">Hola, Cliente</h2>
+                <p>Administra tu información personal.</p>
+            </div>
+
+            <div class="perfil-avatar">VW</div>
+        </div>
+
+        <div class="perfil-grid">
+
+            <aside class="perfil-menu">
+
+                <div class="perfil-menu-titulo">MI CUENTA</div>
+
+                <a href="#informacion" class="perfil-enlace activo">
+                    ✦ Información personal
+                </a>
+
+                <a href="#mis-pedidos" class="perfil-enlace">
+                    ✦ Mis pedidos
+                </a>
+
+                <a href="#mis-disenos" class="perfil-enlace">
+                    ✦ Mis diseños
+                </a>
+
+                <button id="cerrar-sesion" class="perfil-salir">
+                    Cerrar sesión ↗
+                </button>
+
+            </aside>
+
+            <div class="perfil-principal">
+
+                <section class="perfil-tarjeta" id="informacion">
+
+                    <span class="mini-etiqueta">01 / INFORMACIÓN</span>
+
+                    <h2>Datos personales</h2>
+
+                    <p class="perfil-descripcion">
+                        Mantén actualizada la información de tu cuenta.
+                    </p>
+
+                    <form id="form-perfil">
+
+                        <div class="perfil-campo">
+                            <label for="nombre">Nombre completo</label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                maxlength="80"
+                                placeholder="Escribe tu nombre"
+                                required
+                            >
+                        </div>
+
+                        <div class="perfil-campo">
+                            <label for="correo">Correo electrónico</label>
+
+                            <input
+                                type="email"
+                                id="correo"
+                                readonly
+                            >
+
+                            <small>El correo está asociado a tu cuenta.</small>
+                        </div>
+
+                        <button type="submit" class="btn" id="guardar">
+                            Guardar cambios
+                        </button>
+
+                        <p id="mensaje-perfil" class="perfil-mensaje" role="status"></p>
+
+                    </form>
+
+                </section>
+
+                <section class="perfil-tarjeta perfil-futuro" id="mis-pedidos">
+
+                    <span class="mini-etiqueta">02 / TUS COMPRAS</span>
+
+                    <h2>Mis pedidos</h2>
+
+                    <p>Próximamente podrás consultar aquí tus compras.</p>
+
+                </section>
+
+                <section class="perfil-tarjeta perfil-futuro" id="mis-disenos">
+
+                    <span class="mini-etiqueta">03 / TU CREATIVIDAD</span>
+
+                    <h2>Mis diseños</h2>
+
+                    <p>Tus creaciones personalizadas estarán aquí.</p>
+
+                </section>
+
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <p>© 2026 VOID WEAR — WEAR YOUR STORY.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/perfil.js"></script>
+
+</body>
+</html>

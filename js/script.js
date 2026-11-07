@@ -1,6 +1,7 @@
+
 /* =========================================================
-   UNDERTHING — JAVASCRIPT OFICIAL
-   Inicio + Productos + Diseños
+   VOIDWEAR — JAVASCRIPT OFICIAL
+   Inicio + Productos + Diseños + Carrito + Autenticación
    ========================================================= */
 
 
@@ -101,7 +102,7 @@ const PRODUCTOS = {
         tipo: "Pants"
     },
 
-    "UnderThing Cap": {
+    "VOIDWEAR Cap": {
         precio: 28000,
         imagen: null,
         categoria: "accesorios",
@@ -205,6 +206,68 @@ function mostrarNotificacion(mensaje) {
 
 
 /* =========================================================
+   AUTENTICACIÓN Y PROTECCIÓN
+   ========================================================= */
+
+function obtenerDestinoActual() {
+
+    return window.location.pathname +
+        window.location.search +
+        window.location.hash;
+
+}
+
+
+async function verificarSesion() {
+
+    try {
+
+        if (typeof supabaseClient === "undefined") {
+            console.error("Supabase no está cargado.");
+            return false;
+        }
+
+        const { data, error } =
+            await supabaseClient.auth.getSession();
+
+        if (error) throw error;
+
+        return !!data.session;
+
+    } catch (error) {
+
+        console.error("Error verificando sesión:", error);
+
+        return false;
+
+    }
+
+}
+
+
+async function exigirSesion() {
+
+    const tieneSesion = await verificarSesion();
+
+    if (tieneSesion) return true;
+
+    const destino = obtenerDestinoActual();
+
+    sessionStorage.setItem(
+        "voidwear_destino_login",
+        destino
+    );
+
+    window.location.href =
+        "cuenta.html?redirect=" +
+        encodeURIComponent(destino);
+
+    return false;
+
+}
+
+
+/* =========================================================
    MENÚ
    ========================================================= */
 
@@ -269,7 +332,7 @@ function marcarNavActivo() {
    CARRITO
    ========================================================= */
 
-const CLAVE_CARRITO = "underthingCarrito";
+const CLAVE_CARRITO = "VOIDWEARCarrito";
 
 let carrito = [];
 
@@ -282,9 +345,7 @@ try {
         ) || [];
 
     if (!Array.isArray(carrito)) {
-
         carrito = [];
-
     }
 
 } catch {
@@ -321,16 +382,15 @@ function crearClaveItem(item) {
 }
 
 
-function agregarAlCarrito(item) {
+async function agregarAlCarrito(item) {
 
-    const clave =
-        crearClaveItem(item);
+    if (!(await exigirSesion())) return false;
 
-    const existente =
-        carrito.find(
-            producto =>
-                crearClaveItem(producto) === clave
-        );
+    const clave = crearClaveItem(item);
+
+    const existente = carrito.find(
+        producto => crearClaveItem(producto) === clave
+    );
 
     if (existente) {
 
@@ -341,12 +401,8 @@ function agregarAlCarrito(item) {
     } else {
 
         carrito.push({
-
             ...item,
-
-            cantidad:
-                Number(item.cantidad || 1)
-
+            cantidad: Number(item.cantidad || 1)
         });
 
     }
@@ -358,6 +414,8 @@ function agregarAlCarrito(item) {
     mostrarNotificacion(
         `${item.producto} fue añadido al carrito 🛍️`
     );
+
+    return true;
 
 }
 
@@ -417,8 +475,7 @@ function cambiarCantidadCarrito(indice, cambio) {
 
     } else {
 
-        carrito[indice].cantidad =
-            nuevaCantidad;
+        carrito[indice].cantidad = nuevaCantidad;
 
     }
 
@@ -492,9 +549,7 @@ function renderizarCarrito() {
         `;
 
         if (totalElemento) {
-
             totalElemento.textContent = "$0";
-
         }
 
         return;
@@ -549,13 +604,9 @@ function renderizarCarrito() {
 
                     <div class="carrito-item-info">
 
-                        <h3>
-                            ${item.producto}
-                        </h3>
+                        <h3>${item.producto}</h3>
 
-                        <p>
-                            ${detalles}
-                        </p>
+                        <p>${detalles}</p>
 
                         <div class="carrito-cantidad">
 
@@ -565,9 +616,7 @@ function renderizarCarrito() {
                                 −
                             </button>
 
-                            <strong>
-                                ${cantidad}
-                            </strong>
+                            <strong>${cantidad}</strong>
 
                             <button
                                 type="button"
@@ -667,28 +716,19 @@ function inicializarCarrito() {
 
     if (abrir) {
 
-        abrir.addEventListener(
-            "click",
-            abrirCarrito
-        );
+        abrir.addEventListener("click", abrirCarrito);
 
     }
 
     if (cerrar) {
 
-        cerrar.addEventListener(
-            "click",
-            cerrarCarrito
-        );
+        cerrar.addEventListener("click", cerrarCarrito);
 
     }
 
     if (overlay) {
 
-        overlay.addEventListener(
-            "click",
-            cerrarCarrito
-        );
+        overlay.addEventListener("click", cerrarCarrito);
 
     }
 
@@ -739,22 +779,20 @@ function inicializarProductos() {
         ".producto-card .agregar-carrito"
     ).forEach(boton => {
 
-        boton.addEventListener("click", () => {
+        boton.addEventListener("click", async () => {
 
             const tarjeta =
                 boton.closest(".producto-card");
 
             if (!tarjeta) return;
 
-            const nombre =
-                tarjeta.dataset.producto;
+            const nombre = tarjeta.dataset.producto;
 
-            const producto =
-                PRODUCTOS[nombre];
+            const producto = PRODUCTOS[nombre];
 
             if (!producto) return;
 
-            agregarAlCarrito({
+            const agregado = await agregarAlCarrito({
 
                 producto: nombre,
                 precio: producto.precio,
@@ -768,26 +806,26 @@ function inicializarProductos() {
 
             });
 
-            animarCarrito();
+            if (agregado) animarCarrito();
 
         });
 
     });
 
-
     document.querySelectorAll(
         ".personalizar-producto"
     ).forEach(boton => {
 
-        boton.addEventListener("click", () => {
+        boton.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             const tarjeta =
                 boton.closest(".producto-card");
 
             if (!tarjeta) return;
 
-            const nombre =
-                tarjeta.dataset.producto;
+            const nombre = tarjeta.dataset.producto;
 
             window.location.href =
                 `diseños.html?producto=${encodeURIComponent(nombre)}`;
@@ -795,7 +833,6 @@ function inicializarProductos() {
         });
 
     });
-
 
     document.querySelectorAll(
         ".favorito-btn"
@@ -935,11 +972,6 @@ function inicializarPersonalizador() {
 
     if (!previewPrenda) return;
 
-
-    /* -------------------------
-       PRODUCTO DESDE URL
-       ------------------------- */
-
     const parametros =
         new URLSearchParams(location.search);
 
@@ -951,29 +983,27 @@ function inicializarPersonalizador() {
         PRODUCTOS[productoURL]
     ) {
 
-        personalizacion.producto =
-            productoURL;
+        personalizacion.producto = productoURL;
 
     }
 
 
-    /* -------------------------
-       PRENDAS
-       ------------------------- */
+    /* PRENDAS */
 
     document.querySelectorAll(
         ".prenda-opcion"
     ).forEach(opcion => {
 
-        opcion.addEventListener("click", () => {
+        opcion.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             const producto =
                 opcion.dataset.producto;
 
             if (!PRODUCTOS[producto]) return;
 
-            personalizacion.producto =
-                producto;
+            personalizacion.producto = producto;
 
             document.querySelectorAll(
                 ".prenda-opcion"
@@ -998,23 +1028,22 @@ function inicializarPersonalizador() {
     });
 
 
-    /* -------------------------
-       DISEÑOS
-       ------------------------- */
+    /* DISEÑOS */
 
     document.querySelectorAll(
         ".opcion-diseno"
     ).forEach(opcion => {
 
-        opcion.addEventListener("click", () => {
+        opcion.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             const diseño =
                 opcion.dataset.diseno;
 
             if (!DISEÑOS.hasOwnProperty(diseño)) return;
 
-            personalizacion.diseño =
-                diseño;
+            personalizacion.diseño = diseño;
 
             document.querySelectorAll(
                 ".opcion-diseno"
@@ -1039,15 +1068,15 @@ function inicializarPersonalizador() {
     });
 
 
-    /* -------------------------
-       COLORES
-       ------------------------- */
+    /* COLORES */
 
     document.querySelectorAll(
         ".color-opcion"
     ).forEach(opcion => {
 
-        opcion.addEventListener("click", () => {
+        opcion.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             personalizacion.color =
                 opcion.dataset.color;
@@ -1075,15 +1104,15 @@ function inicializarPersonalizador() {
     });
 
 
-    /* -------------------------
-       TALLAS
-       ------------------------- */
+    /* TALLAS */
 
     document.querySelectorAll(
         ".talla-opcion"
     ).forEach(opcion => {
 
-        opcion.addEventListener("click", () => {
+        opcion.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             personalizacion.talla =
                 opcion.dataset.talla;
@@ -1111,15 +1140,15 @@ function inicializarPersonalizador() {
     });
 
 
-    /* -------------------------
-       UBICACIÓN
-       ------------------------- */
+    /* UBICACIÓN */
 
     document.querySelectorAll(
         ".ubicacion-opcion"
     ).forEach(opcion => {
 
-        opcion.addEventListener("click", () => {
+        opcion.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             personalizacion.ubicacion =
                 opcion.dataset.ubicacion;
@@ -1147,9 +1176,7 @@ function inicializarPersonalizador() {
     });
 
 
-    /* -------------------------
-       CANTIDAD
-       ------------------------- */
+    /* CANTIDAD */
 
     const menos =
         document.getElementById(
@@ -1169,7 +1196,9 @@ function inicializarPersonalizador() {
 
     if (menos) {
 
-        menos.addEventListener("click", () => {
+        menos.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             if (personalizacion.cantidad > 1) {
 
@@ -1186,7 +1215,9 @@ function inicializarPersonalizador() {
 
     if (mas) {
 
-        mas.addEventListener("click", () => {
+        mas.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             if (personalizacion.cantidad < 20) {
 
@@ -1204,29 +1235,21 @@ function inicializarPersonalizador() {
     if (inputCantidad) {
 
         inputCantidad.addEventListener(
-            "input",
-            () => {
+            "change",
+            async () => {
+
+                if (!(await exigirSesion())) return;
 
                 let valor =
-                    parseInt(
-                        inputCantidad.value,
-                        10
-                    );
+                    parseInt(inputCantidad.value, 10);
 
                 if (isNaN(valor)) {
-
                     valor = 1;
-
                 }
 
-                valor =
-                    Math.max(
-                        1,
-                        Math.min(20, valor)
-                    );
+                valor = Math.max(1, Math.min(20, valor));
 
-                personalizacion.cantidad =
-                    valor;
+                personalizacion.cantidad = valor;
 
                 actualizarPreviewPersonalizacion();
 
@@ -1392,7 +1415,6 @@ function actualizarPreviewPersonalizacion() {
 
     if (!producto) return;
 
-
     const previewPrenda =
         document.getElementById("preview-prenda");
 
@@ -1405,43 +1427,30 @@ function actualizarPreviewPersonalizacion() {
         );
 
 
-    /* -------------------------
-       PRENDA
-       ------------------------- */
-
     if (previewPrenda) {
 
         if (producto.imagen) {
 
-            previewPrenda.src =
-                producto.imagen;
+            previewPrenda.src = producto.imagen;
 
             previewPrenda.alt =
                 personalizacion.producto;
 
-            previewPrenda.style.display =
-                "block";
+            previewPrenda.style.display = "block";
 
             previewPrenda.style.filter =
-                COLORES[
-                    personalizacion.color
-                ] || "none";
+                COLORES[personalizacion.color] || "none";
 
         } else {
 
             previewPrenda.removeAttribute("src");
 
-            previewPrenda.style.display =
-                "none";
+            previewPrenda.style.display = "none";
 
         }
 
     }
 
-
-    /* -------------------------
-       DISEÑO
-       ------------------------- */
 
     if (previewDiseño) {
 
@@ -1450,49 +1459,33 @@ function actualizarPreviewPersonalizacion() {
 
         if (ruta) {
 
-            previewDiseño.src =
-                ruta;
+            previewDiseño.src = ruta;
 
             previewDiseño.alt =
                 personalizacion.diseño;
 
-            previewDiseño.style.display =
-                "block";
+            previewDiseño.style.display = "block";
 
         } else {
 
             previewDiseño.removeAttribute("src");
 
-            previewDiseño.style.display =
-                "none";
+            previewDiseño.style.display = "none";
 
         }
 
     }
 
 
-    /* -------------------------
-       UBICACIÓN
-       ------------------------- */
-
     actualizarUbicacionDiseño();
 
 
-    /* -------------------------
-       CANTIDAD
-       ------------------------- */
-
     if (cantidad) {
 
-        cantidad.value =
-            personalizacion.cantidad;
+        cantidad.value = personalizacion.cantidad;
 
     }
 
-
-    /* -------------------------
-       RESUMEN
-       ------------------------- */
 
     const resumenPrenda =
         document.getElementById("resumen-prenda");
@@ -1514,51 +1507,31 @@ function actualizarPreviewPersonalizacion() {
 
 
     if (resumenPrenda) {
-
-        resumenPrenda.textContent =
-            personalizacion.producto;
-
+        resumenPrenda.textContent = personalizacion.producto;
     }
 
     if (resumenDiseño) {
-
-        resumenDiseño.textContent =
-            personalizacion.diseño;
-
+        resumenDiseño.textContent = personalizacion.diseño;
     }
 
     if (resumenColor) {
-
-        resumenColor.textContent =
-            personalizacion.color;
-
+        resumenColor.textContent = personalizacion.color;
     }
 
     if (resumenTalla) {
-
-        resumenTalla.textContent =
-            personalizacion.talla;
-
+        resumenTalla.textContent = personalizacion.talla;
     }
 
     if (resumenUbicacion) {
-
-        resumenUbicacion.textContent =
-            personalizacion.ubicacion;
-
+        resumenUbicacion.textContent = personalizacion.ubicacion;
     }
 
 
     const total =
-        producto.precio *
-        personalizacion.cantidad;
-
+        producto.precio * personalizacion.cantidad;
 
     if (resumenPrecio) {
-
-        resumenPrecio.textContent =
-            formatearPrecio(total);
-
+        resumenPrecio.textContent = formatearPrecio(total);
     }
 
 
@@ -1571,27 +1544,18 @@ function actualizarPreviewPersonalizacion() {
     const ubicacionLabel =
         document.getElementById("ubicacion-label");
 
+
     if (colorActual) {
-
-        colorActual.textContent =
-            personalizacion.color;
-
+        colorActual.textContent = personalizacion.color;
     }
 
     if (tallaActual) {
-
-        tallaActual.textContent =
-            personalizacion.talla;
-
+        tallaActual.textContent = personalizacion.talla;
     }
 
     if (ubicacionLabel) {
-
-        ubicacionLabel.textContent =
-            personalizacion.ubicacion;
-
+        ubicacionLabel.textContent = personalizacion.ubicacion;
     }
-
 
     actualizarProgreso();
 
@@ -1605,28 +1569,20 @@ function actualizarPreviewPersonalizacion() {
 function actualizarUbicacionDiseño() {
 
     const layer =
-        document.getElementById(
-            "preview-diseno-layer"
-        );
+        document.getElementById("preview-diseno-layer");
 
     const etiqueta =
-        document.getElementById(
-            "ubicacion-actual"
-        );
+        document.getElementById("ubicacion-actual");
 
     if (!layer) return;
 
-
     layer.classList.remove(
-
         "posicion-centro",
         "posicion-pecho",
         "posicion-abajo",
         "posicion-lateral",
         "posicion-espalda"
-
     );
-
 
     const mapa = {
 
@@ -1638,21 +1594,12 @@ function actualizarUbicacionDiseño() {
 
     };
 
-
     layer.classList.add(
-
-        mapa[
-            personalizacion.ubicacion
-        ] || "posicion-centro"
-
+        mapa[personalizacion.ubicacion] || "posicion-centro"
     );
 
-
     if (etiqueta) {
-
-        etiqueta.textContent =
-            personalizacion.ubicacion;
-
+        etiqueta.textContent = personalizacion.ubicacion;
     }
 
 }
@@ -1671,15 +1618,12 @@ function actualizarProgreso() {
 
     if (!pasos.length) return;
 
-
     pasos.forEach((paso, index) => {
 
         paso.classList.remove("activo");
 
         if (index <= 2) {
-
             paso.classList.add("activo");
-
         }
 
     });
@@ -1694,55 +1638,39 @@ function actualizarProgreso() {
 function inicializarBotonPersonalizado() {
 
     const boton =
-        document.getElementById(
-            "agregar-personalizado"
-        );
+        document.getElementById("agregar-personalizado");
 
     if (!boton) return;
 
+    boton.addEventListener("click", async () => {
 
-    boton.addEventListener("click", () => {
+        if (!(await exigirSesion())) return;
 
         const producto =
-            PRODUCTOS[
-                personalizacion.producto
-            ];
+            PRODUCTOS[personalizacion.producto];
 
         if (!producto) return;
 
+        const agregado = await agregarAlCarrito({
 
-        agregarAlCarrito({
-
-            producto:
-                personalizacion.producto,
-
-            diseño:
-                personalizacion.diseño,
-
-            color:
-                personalizacion.color,
-
-            talla:
-                personalizacion.talla,
-
-            ubicacion:
-                personalizacion.ubicacion,
-
-            cantidad:
-                personalizacion.cantidad,
-
-            precio:
-                producto.precio,
-
-            imagen:
-                producto.imagen
+            producto: personalizacion.producto,
+            diseño: personalizacion.diseño,
+            color: personalizacion.color,
+            talla: personalizacion.talla,
+            ubicacion: personalizacion.ubicacion,
+            cantidad: personalizacion.cantidad,
+            precio: producto.precio,
+            imagen: producto.imagen
 
         });
 
+        if (agregado) {
 
-        animarCarrito();
+            animarCarrito();
 
-        abrirCarrito();
+            abrirCarrito();
+
+        }
 
     });
 
@@ -1756,29 +1684,23 @@ function inicializarBotonPersonalizado() {
 function inicializarCheckout() {
 
     const abrir =
-        document.getElementById(
-            "abrir-checkout"
-        );
+        document.getElementById("abrir-checkout");
 
     const cerrar =
-        document.getElementById(
-            "cerrar-checkout"
-        );
+        document.getElementById("cerrar-checkout");
 
     const overlay =
-        document.getElementById(
-            "checkout-overlay"
-        );
+        document.getElementById("checkout-overlay");
 
     const form =
-        document.getElementById(
-            "checkout-form"
-        );
+        document.getElementById("checkout-form");
 
 
     if (abrir) {
 
-        abrir.addEventListener("click", () => {
+        abrir.addEventListener("click", async () => {
+
+            if (!(await exigirSesion())) return;
 
             if (!carrito.length) {
 
@@ -1791,9 +1713,7 @@ function inicializarCheckout() {
             }
 
             if (overlay) {
-
                 overlay.classList.add("activo");
-
             }
 
         });
@@ -1806,9 +1726,7 @@ function inicializarCheckout() {
         cerrar.addEventListener("click", () => {
 
             if (overlay) {
-
                 overlay.classList.remove("activo");
-
             }
 
         });
@@ -1821,9 +1739,7 @@ function inicializarCheckout() {
         overlay.addEventListener("click", evento => {
 
             if (evento.target === overlay) {
-
                 overlay.classList.remove("activo");
-
             }
 
         });
@@ -1833,9 +1749,11 @@ function inicializarCheckout() {
 
     if (form) {
 
-        form.addEventListener("submit", evento => {
+        form.addEventListener("submit", async evento => {
 
             evento.preventDefault();
+
+            if (!(await exigirSesion())) return;
 
             finalizarCompra();
 
@@ -1850,20 +1768,14 @@ function finalizarCompra() {
 
     if (!carrito.length) return;
 
-
     const overlay =
-        document.getElementById(
-            "checkout-overlay"
-        );
+        document.getElementById("checkout-overlay");
 
     const form =
-        document.getElementById(
-            "checkout-form"
-        );
+        document.getElementById("checkout-form");
 
 
     carrito = [];
-
 
     guardarCarrito();
 
@@ -1871,24 +1783,17 @@ function finalizarCompra() {
 
 
     if (overlay) {
-
         overlay.classList.remove("activo");
-
     }
-
 
     if (form) {
-
         form.reset();
-
     }
-
 
     cerrarCarrito();
 
-
     mostrarNotificacion(
-        "¡Pedido recibido! Gracias por crear tu UNDERTHING ✦"
+        "¡Pedido recibido! Gracias por crear tu VOIDWEAR ✦"
     );
 
 }
@@ -1901,32 +1806,21 @@ function finalizarCompra() {
 function inicializarAsistente() {
 
     const boton =
-        document.getElementById(
-            "asistente-boton"
-        );
+        document.getElementById("asistente-boton");
 
     const panel =
-        document.getElementById(
-            "asistente-panel"
-        );
+        document.getElementById("asistente-panel");
 
     const cerrar =
-        document.getElementById(
-            "cerrar-asistente"
-        );
+        document.getElementById("cerrar-asistente");
 
     const form =
-        document.getElementById(
-            "asistente-form"
-        );
+        document.getElementById("asistente-form");
 
     const input =
-        document.getElementById(
-            "asistente-input"
-        );
+        document.getElementById("asistente-input");
 
     if (!boton || !panel) return;
-
 
     boton.addEventListener("click", () => {
 
@@ -1936,9 +1830,7 @@ function inicializarAsistente() {
             panel.classList.contains("activo") &&
             input
         ) {
-
             input.focus();
-
         }
 
     });
@@ -1947,9 +1839,7 @@ function inicializarAsistente() {
     if (cerrar) {
 
         cerrar.addEventListener("click", () => {
-
             panel.classList.remove("activo");
-
         });
 
     }
@@ -1961,20 +1851,13 @@ function inicializarAsistente() {
 
             evento.preventDefault();
 
-            const texto =
-                input.value.trim();
+            const texto = input.value.trim();
 
             if (!texto) return;
 
-
-            agregarMensajeAsistente(
-                texto,
-                "usuario"
-            );
-
+            agregarMensajeAsistente(texto, "usuario");
 
             input.value = "";
-
 
             setTimeout(() => {
 
@@ -1999,37 +1882,26 @@ function inicializarAsistente() {
    MENSAJES DEL ASISTENTE
    ========================================================= */
 
-function agregarMensajeAsistente(
-    mensaje,
-    tipo
-) {
+function agregarMensajeAsistente(mensaje, tipo) {
 
     const contenedor =
-        document.getElementById(
-            "asistente-mensajes"
-        );
+        document.getElementById("asistente-mensajes");
 
     if (!contenedor) return;
 
-
     const elemento =
         document.createElement("div");
-
 
     elemento.className =
         tipo === "usuario"
             ? "mensaje-usuario"
             : "mensaje-asistente";
 
-
     if (tipo === "usuario") {
 
-        elemento.innerHTML = `
-            <p></p>
-        `;
+        elemento.innerHTML = `<p></p>`;
 
-        elemento.querySelector("p").textContent =
-            mensaje;
+        elemento.querySelector("p").textContent = mensaje;
 
     } else {
 
@@ -2038,17 +1910,13 @@ function agregarMensajeAsistente(
             <p></p>
         `;
 
-        elemento.querySelector("p").textContent =
-            mensaje;
+        elemento.querySelector("p").textContent = mensaje;
 
     }
 
-
     contenedor.appendChild(elemento);
 
-
-    contenedor.scrollTop =
-        contenedor.scrollHeight;
+    contenedor.scrollTop = contenedor.scrollHeight;
 
 }
 
@@ -2060,14 +1928,10 @@ function agregarMensajeAsistente(
 function responderAsistente(mensaje) {
 
     const texto =
-        mensaje
-            .toLowerCase()
-            .trim();
+        mensaje.toLowerCase().trim();
 
 
-    /* -------------------------
-       SALUDOS
-       ------------------------- */
+    /* SALUDOS */
 
     if (
         texto.includes("hola") ||
@@ -2081,9 +1945,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       AGRADECIMIENTO
-       ------------------------- */
+    /* AGRADECIMIENTO */
 
     if (
         texto.includes("gracias") ||
@@ -2095,9 +1957,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       COMBINACIONES ESPECÍFICAS
-       ------------------------- */
+    /* COMBINACIONES */
 
     const hoodie =
         texto.includes("hoodie") ||
@@ -2180,62 +2040,37 @@ function responderAsistente(mensaje) {
         texto.includes("combinar");
 
 
-    /* -------------------------
-       HOODIE
-       ------------------------- */
+    /* HOODIE */
 
-    if (
-        hoodie &&
-        negro &&
-        femenino
-    ) {
+    if (hoodie && negro && femenino) {
 
         return "Ufff, hoodie negra + vibe femenina 💗. Yo probaría Cross Heart si quieres algo romántico con actitud, o Abstract Bloom si quieres algo más artístico. Pecho queda delicado y Centro más protagonista.";
 
     }
 
-
-    if (
-        hoodie &&
-        negro &&
-        discreto
-    ) {
+    if (hoodie && negro && discreto) {
 
         return "Entonces yo no la cargaría demasiado 🖤. Hoodie negra + Star Signal o Cross Heart en Pecho queda con personalidad, pero sigue siendo fácil de usar.";
 
     }
 
-
-    if (
-        hoodie &&
-        negro &&
-        llamativo
-    ) {
+    if (hoodie && negro && llamativo) {
 
         return "AHHH, entonces vamos con toda 😭🖤. Hoodie negra + Night City o Flame Theory en Centro. Ahí sí el diseño se roba la atención.";
 
     }
 
-
-    if (
-        hoodie &&
-        dark
-    ) {
+    if (hoodie && dark) {
 
         return "Para una vibe dark 🖤, una hoodie negra es una base brutal. Yo miraría Night City, Cross Heart o Flame Theory. Centro si quieres que destaque; Pecho si quieres algo más controlado.";
 
     }
 
-
-    if (
-        hoodie &&
-        femenino
-    ) {
+    if (hoodie && femenino) {
 
         return "Si quieres una hoodie femenina sin que se vuelva demasiado cute, probaría Rosa o Beige con Abstract Bloom o Cross Heart 💗. Sigue teniendo esa mezcla de girly + streetwear.";
 
     }
-
 
     if (hoodie) {
 
@@ -2244,26 +2079,19 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       CAMISETA
-       ------------------------- */
+    /* CAMISETA */
 
-    if (
-        camiseta &&
-        diario
-    ) {
+    if (camiseta && diario) {
 
         return "Para diario me iría por una Oversize Essential o Oversize Basic. Negro, Beige o Blanco son fáciles de combinar y Star Signal en Pecho le da ese detalle sin recargarla ✦.";
 
     }
-
 
     if (camiseta && femenino) {
 
         return "Para algo femenino, Baby Tee o Crop Oversize pueden quedar muy lindas 💗. Si quieres diseño, Abstract Bloom o Butterfly Code tienen una vibra más delicada.";
 
     }
-
 
     if (camiseta) {
 
@@ -2272,9 +2100,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       CARGO
-       ------------------------- */
+    /* CARGO */
 
     if (cargo) {
 
@@ -2283,51 +2109,34 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       FEMENINO + ROSA
-       ------------------------- */
+    /* FEMENINO + ROSA */
 
-    if (
-        femenino &&
-        rosa
-    ) {
+    if (femenino && rosa) {
 
         return "Rosa + femenino 💗. Yo miraría Abstract Bloom o Butterfly Code si quieres algo delicado, y Cross Heart si quieres que tenga un poquito más de actitud.";
 
     }
 
 
-    /* -------------------------
-       FEMENINO + NEGRO
-       ------------------------- */
+    /* FEMENINO + NEGRO */
 
-    if (
-        femenino &&
-        negro
-    ) {
+    if (femenino && negro) {
 
         return "Negro + femenino queda demasiado interesante 🖤. Cross Heart tiene ese toque romántico, mientras que Abstract Bloom se siente más artístico.";
 
     }
 
 
-    /* -------------------------
-       DARK
-       ------------------------- */
+    /* DARK */
 
-    if (
-        dark &&
-        negro
-    ) {
+    if (dark && negro) {
 
         return "Negro + dark 🖤. Night City, Cross Heart o Flame Theory van por caminos distintos, pero los tres pueden funcionar. Yo elegiría según cuánto quieras que destaque.";
 
     }
 
 
-    /* -------------------------
-       CLEAN
-       ------------------------- */
+    /* CLEAN */
 
     if (
         texto.includes("clean") ||
@@ -2339,9 +2148,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       LLAMATIVO
-       ------------------------- */
+    /* LLAMATIVO */
 
     if (llamativo) {
 
@@ -2350,9 +2157,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       DISCRETO
-       ------------------------- */
+    /* DISCRETO */
 
     if (discreto) {
 
@@ -2361,9 +2166,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       COLORES
-       ------------------------- */
+    /* COLORES */
 
     if (rosa) {
 
@@ -2371,13 +2174,11 @@ function responderAsistente(mensaje) {
 
     }
 
-
     if (negro) {
 
         return "El negro es súper versátil 🖤. Star Signal si quieres algo clean, Cross Heart si quieres personalidad y Night City o Flame Theory si quieres que se note.";
 
     }
-
 
     if (azul) {
 
@@ -2385,20 +2186,17 @@ function responderAsistente(mensaje) {
 
     }
 
-
     if (beige) {
 
         return "Beige es una base muy limpia 🤎. Puedes combinarlo con Abstract Bloom para algo artístico o Cross Heart para darle un poco más de personalidad.";
 
     }
 
-
     if (blanco) {
 
         return "El blanco deja que prácticamente cualquier diseño sea protagonista 🤍. Night City para algo urbano o Abstract Bloom para algo más artístico.";
 
     }
-
 
     if (verde) {
 
@@ -2407,9 +2205,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       DISEÑOS
-       ------------------------- */
+    /* DISEÑOS */
 
     if (texto.includes("night city")) {
 
@@ -2417,13 +2213,11 @@ function responderAsistente(mensaje) {
 
     }
 
-
     if (texto.includes("cross heart")) {
 
         return "Cross Heart ♡ tiene ese equilibrio entre romántico y alternativo. Me gusta especialmente para una vibe femenina o ligeramente dark.";
 
     }
-
 
     if (texto.includes("smile fade")) {
 
@@ -2431,13 +2225,11 @@ function responderAsistente(mensaje) {
 
     }
 
-
     if (texto.includes("abstract bloom")) {
 
         return "Abstract Bloom 🌸 se siente más artístico y delicado. Es de los que elegiría si quieres que tu prenda tenga un detalle diferente.";
 
     }
-
 
     if (texto.includes("star signal")) {
 
@@ -2445,20 +2237,17 @@ function responderAsistente(mensaje) {
 
     }
 
-
     if (texto.includes("flame theory")) {
 
         return "Flame Theory 🔥 tiene bastante actitud. Centro si quieres que destaque, Pecho si quieres mantenerlo un poco más equilibrado.";
 
     }
 
-
     if (texto.includes("butterfly")) {
 
         return "Butterfly Code 🦋 tiene una vibra más cute y delicada. Rosa o Beige lo hacen más girly; Negro lo lleva hacia algo más alternativo.";
 
     }
-
 
     if (
         texto.includes("broken heart") ||
@@ -2471,9 +2260,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       URBANO
-       ------------------------- */
+    /* URBANO */
 
     if (
         texto.includes("urbano") ||
@@ -2482,14 +2269,12 @@ function responderAsistente(mensaje) {
         texto.includes("outfit")
     ) {
 
-        return "Para una vibra urbana 😮‍💨 yo mezclaría una Oversize o Hoodie con Cargo Wide. Para diseño, Night City, Flame Theory o Cross Heart quedan muy UNDERTHING.";
+        return "Para una vibra urbana 😮‍💨 yo mezclaría una Oversize o Hoodie con Cargo Wide. Para diseño, Night City, Flame Theory o Cross Heart quedan muy VOIDWEAR.";
 
     }
 
 
-    /* -------------------------
-       COMODIDAD
-       ------------------------- */
+    /* COMODIDAD */
 
     if (
         texto.includes("comodo") ||
@@ -2501,14 +2286,12 @@ function responderAsistente(mensaje) {
         texto.includes("holgada")
     ) {
 
-        return "Si buscas comodidad sin perder el estilo, una Oversize con Cargo Classic o Parachute Pants es una combinación muy UNDERTHING 🤍.";
+        return "Si buscas comodidad sin perder el estilo, una Oversize con Cargo Classic o Parachute Pants es una combinación muy VOIDWEAR 🤍.";
 
     }
 
 
-    /* -------------------------
-       PRECIOS
-       ------------------------- */
+    /* PRECIOS */
 
     if (
         texto.includes("precio") ||
@@ -2523,9 +2306,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       TALLAS
-       ------------------------- */
+    /* TALLAS */
 
     if (
         texto.includes("talla") ||
@@ -2537,9 +2318,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       UBICACIÓN
-       ------------------------- */
+    /* UBICACIÓN */
 
     if (
         texto.includes("pecho") ||
@@ -2554,9 +2333,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       AYUDA
-       ------------------------- */
+    /* AYUDA */
 
     if (
         texto.includes("ayuda") ||
@@ -2573,9 +2350,7 @@ function responderAsistente(mensaje) {
     }
 
 
-    /* -------------------------
-       RESPUESTA GENERAL
-       ------------------------- */
+    /* RESPUESTA GENERAL */
 
     const respuestasGenerales = [
 
@@ -2587,16 +2362,12 @@ function responderAsistente(mensaje) {
 
         "Eso puede quedar muy cool 👀. Dame un poquito más de contexto y te ayudo a armar la combinación.",
 
-        "UNDERTHING mode activado 🛍️✨. Cuéntame qué tienes en mente y vemos qué diseño, prenda y ubicación combinan mejor."
+        "VOIDWEAR mode activado 🛍️✨. Cuéntame qué tienes en mente y vemos qué diseño, prenda y ubicación combinan mejor."
 
     ];
 
-
     return respuestasGenerales[
-        Math.floor(
-            Math.random() *
-            respuestasGenerales.length
-        )
+        Math.floor(Math.random() * respuestasGenerales.length)
     ];
 
 }
@@ -2615,25 +2386,17 @@ function inicializarEscape() {
         cerrarCarrito();
 
         const checkout =
-            document.getElementById(
-                "checkout-overlay"
-            );
+            document.getElementById("checkout-overlay");
 
         if (checkout) {
-
             checkout.classList.remove("activo");
-
         }
 
         const asistente =
-            document.getElementById(
-                "asistente-panel"
-            );
+            document.getElementById("asistente-panel");
 
         if (asistente) {
-
             asistente.classList.remove("activo");
-
         }
 
     });
@@ -2645,31 +2408,28 @@ function inicializarEscape() {
    INICIO
    ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-        inicializarMenu();
+    inicializarMenu();
 
-        marcarNavActivo();
+    marcarNavActivo();
 
-        inicializarCarrito();
+    inicializarCarrito();
 
-        inicializarProductos();
+    inicializarProductos();
 
-        inicializarBuscador();
+    inicializarBuscador();
 
-        inicializarFiltros();
+    inicializarFiltros();
 
-        inicializarPersonalizador();
+    inicializarPersonalizador();
 
-        inicializarBotonPersonalizado();
+    inicializarBotonPersonalizado();
 
-        inicializarCheckout();
+    inicializarCheckout();
 
-        inicializarAsistente();
+    inicializarAsistente();
 
-        inicializarEscape();
+    inicializarEscape();
 
-    }
-);
+});
