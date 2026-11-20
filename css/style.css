@@ -3610,3 +3610,33 @@ select:focus-visible {
         height: 65px;
     }
 }
+/* EDITOR DE DISEÑO VOID WEAR */
+.preview-prenda-wrapper {
+    position: relative;
+}
+
+.preview-diseno-layer {
+    position: absolute;
+    pointer-events: auto !important;
+    touch-action: none;
+    cursor: grab;
+    z-index: 5;
+}
+
+.preview-diseno-layer:active {
+    cursor: grabbing;
+}
+
+.preview-diseno {
+    pointer-events: none;
+    transform-origin: center;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+#diseno-tamano,
+#diseno-rotacion {
+    width: 100%;
+    accent-color: #C02674;
+    cursor: pointer;
+}

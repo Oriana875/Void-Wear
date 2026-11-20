@@ -154,6 +154,34 @@ const COLORES = {
 
 
 const TALLAS = ["XS", "S", "M", "L", "XL"];
+// IMÁGENES OFICIALES VOID WEAR
+const IMAGENES_VOIDWEAR = {
+    "Oversize Essential": "img/oversize-essential.png",
+    "Oversize Graphic": "img/oversize-graphic.png",
+    "Oversize Basic": "img/oversize-basic.png",
+    "Baby Tee": "img/baby-tee.png",
+    "Crop Oversize": "img/crop-oversize.png",
+
+    "Essential Hoodie": "img/essential-hoodie.png",
+    "Graphic Hoodie": "img/graphic-hoodie.png",
+    "Premium Hoodie": "img/premium-hoodie.png",
+    "Zip Hoodie": "img/zip-hoodie.png",
+
+    "Cargo Classic": "img/cargo-classic.png",
+    "Cargo Wide": "img/cargo-wide.png",
+    "Cargo Urban": "img/cargo-urban.png",
+    "Parachute Pants": "img/parachute-pants.png",
+
+    "VOIDWEAR Cap": "img/voidwear-cap.png",
+    "Urban Beanie": "img/urban-beanie.png",
+    "Tote Bag": "img/tote-bag.png"
+};
+
+Object.entries(IMAGENES_VOIDWEAR).forEach(([nombre, imagen]) => {
+    if (PRODUCTOS[nombre]) {
+        PRODUCTOS[nombre].imagen = imagen;
+    }
+});
 
 
 /* =========================================================
@@ -961,308 +989,218 @@ function aplicarFiltrosProductos() {
 }
 
 
+
 /* =========================================================
-   PERSONALIZADOR
+   PERSONALIZADOR VOID WEAR — EDITOR MEJORADO
    ========================================================= */
 
 function inicializarPersonalizador() {
 
-    const previewPrenda =
-        document.getElementById("preview-prenda");
-
+    const previewPrenda = document.getElementById("preview-prenda");
     if (!previewPrenda) return;
 
-    const parametros =
-        new URLSearchParams(location.search);
+    const parametros = new URLSearchParams(location.search);
+    const productoURL = parametros.get("producto");
 
-    const productoURL =
-        parametros.get("producto");
-
-    if (
-        productoURL &&
-        PRODUCTOS[productoURL]
-    ) {
-
+    if (productoURL && PRODUCTOS[productoURL]) {
         personalizacion.producto = productoURL;
-
     }
 
+    // Estado del diseño
+    personalizacion.tamano = personalizacion.tamano || 100;
+    personalizacion.rotacion = personalizacion.rotacion || 0;
+    personalizacion.posicionX = personalizacion.posicionX ?? 50;
+    personalizacion.posicionY = personalizacion.posicionY ?? 50;
 
     /* PRENDAS */
-
-    document.querySelectorAll(
-        ".prenda-opcion"
-    ).forEach(opcion => {
+    document.querySelectorAll(".prenda-opcion").forEach(opcion => {
 
         opcion.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
-            const producto =
-                opcion.dataset.producto;
-
+            const producto = opcion.dataset.producto;
             if (!PRODUCTOS[producto]) return;
 
             personalizacion.producto = producto;
 
-            document.querySelectorAll(
-                ".prenda-opcion"
-            ).forEach(item => {
-
-                item.classList.remove(
-                    "activo",
-                    "seleccionado"
-                );
-
+            document.querySelectorAll(".prenda-opcion").forEach(item => {
+                item.classList.remove("activo", "seleccionado");
             });
 
-            opcion.classList.add(
-                "activo",
-                "seleccionado"
-            );
+            opcion.classList.add("activo", "seleccionado");
 
             actualizarPreviewPersonalizacion();
-
         });
-
     });
 
-
     /* DISEÑOS */
-
-    document.querySelectorAll(
-        ".opcion-diseno"
-    ).forEach(opcion => {
+    document.querySelectorAll(".opcion-diseno").forEach(opcion => {
 
         opcion.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
-            const diseño =
-                opcion.dataset.diseno;
-
-            if (!DISEÑOS.hasOwnProperty(diseño)) return;
+            const diseño = opcion.dataset.diseno;
+            if (!Object.prototype.hasOwnProperty.call(DISEÑOS, diseño)) return;
 
             personalizacion.diseño = diseño;
 
-            document.querySelectorAll(
-                ".opcion-diseno"
-            ).forEach(item => {
-
-                item.classList.remove(
-                    "activo",
-                    "seleccionado"
-                );
-
+            document.querySelectorAll(".opcion-diseno").forEach(item => {
+                item.classList.remove("activo", "seleccionado");
             });
 
-            opcion.classList.add(
-                "activo",
-                "seleccionado"
-            );
+            opcion.classList.add("activo", "seleccionado");
 
             actualizarPreviewPersonalizacion();
-
         });
-
     });
-
 
     /* COLORES */
-
-    document.querySelectorAll(
-        ".color-opcion"
-    ).forEach(opcion => {
+    document.querySelectorAll(".color-opcion").forEach(opcion => {
 
         opcion.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
-            personalizacion.color =
-                opcion.dataset.color;
+            personalizacion.color = opcion.dataset.color;
 
-            document.querySelectorAll(
-                ".color-opcion"
-            ).forEach(item => {
-
-                item.classList.remove(
-                    "activo",
-                    "seleccionado"
-                );
-
+            document.querySelectorAll(".color-opcion").forEach(item => {
+                item.classList.remove("activo", "seleccionado");
             });
 
-            opcion.classList.add(
-                "activo",
-                "seleccionado"
-            );
+            opcion.classList.add("activo", "seleccionado");
 
             actualizarPreviewPersonalizacion();
-
         });
-
     });
-
 
     /* TALLAS */
-
-    document.querySelectorAll(
-        ".talla-opcion"
-    ).forEach(opcion => {
+    document.querySelectorAll(".talla-opcion").forEach(opcion => {
 
         opcion.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
-            personalizacion.talla =
-                opcion.dataset.talla;
+            personalizacion.talla = opcion.dataset.talla;
 
-            document.querySelectorAll(
-                ".talla-opcion"
-            ).forEach(item => {
-
-                item.classList.remove(
-                    "activo",
-                    "seleccionado"
-                );
-
+            document.querySelectorAll(".talla-opcion").forEach(item => {
+                item.classList.remove("activo", "seleccionado");
             });
 
-            opcion.classList.add(
-                "activo",
-                "seleccionado"
-            );
+            opcion.classList.add("activo", "seleccionado");
 
             actualizarPreviewPersonalizacion();
-
         });
-
     });
-
 
     /* UBICACIÓN */
-
-    document.querySelectorAll(
-        ".ubicacion-opcion"
-    ).forEach(opcion => {
+    document.querySelectorAll(".ubicacion-opcion").forEach(opcion => {
 
         opcion.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
-            personalizacion.ubicacion =
-                opcion.dataset.ubicacion;
+            personalizacion.ubicacion = opcion.dataset.ubicacion;
 
-            document.querySelectorAll(
-                ".ubicacion-opcion"
-            ).forEach(item => {
-
-                item.classList.remove(
-                    "activo",
-                    "seleccionado"
-                );
-
+            document.querySelectorAll(".ubicacion-opcion").forEach(item => {
+                item.classList.remove("activo", "seleccionado");
             });
 
-            opcion.classList.add(
-                "activo",
-                "seleccionado"
-            );
+            opcion.classList.add("activo", "seleccionado");
 
+            actualizarUbicacionDiseño();
             actualizarPreviewPersonalizacion();
-
         });
-
     });
 
+    /* TAMAÑO DEL DISEÑO */
+    const controlTamano = document.getElementById("diseno-tamano");
+    const valorTamano = document.getElementById("diseno-tamano-valor");
+
+    if (controlTamano) {
+
+        controlTamano.value = personalizacion.tamano;
+
+        controlTamano.addEventListener("input", () => {
+
+            personalizacion.tamano = Number(controlTamano.value);
+
+            if (valorTamano) {
+                valorTamano.textContent = personalizacion.tamano + "%";
+            }
+
+            aplicarTransformacionDiseno();
+        });
+    }
+
+    /* ROTACIÓN */
+    const controlRotacion = document.getElementById("diseno-rotacion");
+    const valorRotacion = document.getElementById("diseno-rotacion-valor");
+
+    if (controlRotacion) {
+
+        controlRotacion.value = personalizacion.rotacion;
+
+        controlRotacion.addEventListener("input", () => {
+
+            personalizacion.rotacion = Number(controlRotacion.value);
+
+            if (valorRotacion) {
+                valorRotacion.textContent = personalizacion.rotacion + "°";
+            }
+
+            aplicarTransformacionDiseno();
+        });
+    }
 
     /* CANTIDAD */
-
-    const menos =
-        document.getElementById(
-            "personalizacion-menos"
-        );
-
-    const mas =
-        document.getElementById(
-            "personalizacion-mas"
-        );
-
-    const inputCantidad =
-        document.getElementById(
-            "personalizacion-cantidad"
-        );
-
+    const menos = document.getElementById("personalizacion-menos");
+    const mas = document.getElementById("personalizacion-mas");
+    const inputCantidad = document.getElementById("personalizacion-cantidad");
 
     if (menos) {
-
         menos.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
             if (personalizacion.cantidad > 1) {
-
                 personalizacion.cantidad--;
-
                 actualizarPreviewPersonalizacion();
-
             }
-
         });
-
     }
 
-
     if (mas) {
-
         mas.addEventListener("click", async () => {
 
             if (!(await exigirSesion())) return;
 
             if (personalizacion.cantidad < 20) {
-
                 personalizacion.cantidad++;
-
                 actualizarPreviewPersonalizacion();
-
             }
-
         });
-
     }
-
 
     if (inputCantidad) {
+        inputCantidad.addEventListener("change", async () => {
 
-        inputCantidad.addEventListener(
-            "change",
-            async () => {
+            if (!(await exigirSesion())) return;
 
-                if (!(await exigirSesion())) return;
+            let valor = parseInt(inputCantidad.value, 10);
 
-                let valor =
-                    parseInt(inputCantidad.value, 10);
+            if (isNaN(valor)) valor = 1;
 
-                if (isNaN(valor)) {
-                    valor = 1;
-                }
+            personalizacion.cantidad = Math.max(1, Math.min(20, valor));
 
-                valor = Math.max(1, Math.min(20, valor));
-
-                personalizacion.cantidad = valor;
-
-                actualizarPreviewPersonalizacion();
-
-            }
-        );
-
+            actualizarPreviewPersonalizacion();
+        });
     }
 
-
+    activarMovimientoDiseno();
     seleccionarEstadoInicial();
-
     actualizarPreviewPersonalizacion();
-
 }
 
 
@@ -1272,170 +1210,53 @@ function inicializarPersonalizador() {
 
 function seleccionarEstadoInicial() {
 
-    const prenda =
-        document.querySelector(
-            `.prenda-opcion[data-producto="${personalizacion.producto}"]`
-        );
+    const grupos = [
+        [".prenda-opcion", "producto", "data-producto"],
+        [".opcion-diseno", "diseño", "data-diseno"],
+        [".color-opcion", "color", "data-color"],
+        [".talla-opcion", "talla", "data-talla"],
+        [".ubicacion-opcion", "ubicacion", "data-ubicacion"]
+    ];
 
-    if (prenda) {
+    grupos.forEach(([selector, propiedad, atributo]) => {
 
-        document.querySelectorAll(
-            ".prenda-opcion"
-        ).forEach(item => {
+        const valor = personalizacion[propiedad];
 
-            item.classList.remove(
-                "activo",
-                "seleccionado"
+        document.querySelectorAll(selector).forEach(item => {
+
+            item.classList.toggle(
+                "seleccionado",
+                item.getAttribute(atributo) === valor
             );
 
-        });
-
-        prenda.classList.add(
-            "activo",
-            "seleccionado"
-        );
-
-    }
-
-
-    const diseño =
-        document.querySelector(
-            `.opcion-diseno[data-diseno="${personalizacion.diseño}"]`
-        );
-
-    if (diseño) {
-
-        document.querySelectorAll(
-            ".opcion-diseno"
-        ).forEach(item => {
-
-            item.classList.remove(
+            item.classList.toggle(
                 "activo",
-                "seleccionado"
+                item.getAttribute(atributo) === valor
             );
-
         });
-
-        diseño.classList.add(
-            "activo",
-            "seleccionado"
-        );
-
-    }
-
-
-    const color =
-        document.querySelector(
-            `.color-opcion[data-color="${personalizacion.color}"]`
-        );
-
-    if (color) {
-
-        document.querySelectorAll(
-            ".color-opcion"
-        ).forEach(item => {
-
-            item.classList.remove(
-                "activo",
-                "seleccionado"
-            );
-
-        });
-
-        color.classList.add(
-            "activo",
-            "seleccionado"
-        );
-
-    }
-
-
-    const talla =
-        document.querySelector(
-            `.talla-opcion[data-talla="${personalizacion.talla}"]`
-        );
-
-    if (talla) {
-
-        document.querySelectorAll(
-            ".talla-opcion"
-        ).forEach(item => {
-
-            item.classList.remove(
-                "activo",
-                "seleccionado"
-            );
-
-        });
-
-        talla.classList.add(
-            "activo",
-            "seleccionado"
-        );
-
-    }
-
-
-    const ubicacion =
-        document.querySelector(
-            `.ubicacion-opcion[data-ubicacion="${personalizacion.ubicacion}"]`
-        );
-
-    if (ubicacion) {
-
-        document.querySelectorAll(
-            ".ubicacion-opcion"
-        ).forEach(item => {
-
-            item.classList.remove(
-                "activo",
-                "seleccionado"
-            );
-
-        });
-
-        ubicacion.classList.add(
-            "activo",
-            "seleccionado"
-        );
-
-    }
-
+    });
 }
 
 
 /* =========================================================
-   PREVIEW
+   ACTUALIZAR VISTA PREVIA
    ========================================================= */
 
 function actualizarPreviewPersonalizacion() {
 
-    const producto =
-        PRODUCTOS[personalizacion.producto];
-
+    const producto = PRODUCTOS[personalizacion.producto];
     if (!producto) return;
 
-    const previewPrenda =
-        document.getElementById("preview-prenda");
-
-    const previewDiseño =
-        document.getElementById("preview-diseno");
-
-    const cantidad =
-        document.getElementById(
-            "personalizacion-cantidad"
-        );
-
+    const previewPrenda = document.getElementById("preview-prenda");
+    const previewDiseno = document.getElementById("preview-diseno");
+    const cantidad = document.getElementById("personalizacion-cantidad");
 
     if (previewPrenda) {
 
         if (producto.imagen) {
 
             previewPrenda.src = producto.imagen;
-
-            previewPrenda.alt =
-                personalizacion.producto;
-
+            previewPrenda.alt = personalizacion.producto;
             previewPrenda.style.display = "block";
 
             previewPrenda.style.filter =
@@ -1444,121 +1265,61 @@ function actualizarPreviewPersonalizacion() {
         } else {
 
             previewPrenda.removeAttribute("src");
-
             previewPrenda.style.display = "none";
-
         }
-
     }
 
+    if (previewDiseno) {
 
-    if (previewDiseño) {
-
-        const ruta =
-            DISEÑOS[personalizacion.diseño];
+        const ruta = DISEÑOS[personalizacion.diseño];
 
         if (ruta) {
 
-            previewDiseño.src = ruta;
-
-            previewDiseño.alt =
-                personalizacion.diseño;
-
-            previewDiseño.style.display = "block";
+            previewDiseno.src = ruta;
+            previewDiseno.alt = personalizacion.diseño;
+            previewDiseno.style.display = "block";
 
         } else {
 
-            previewDiseño.removeAttribute("src");
-
-            previewDiseño.style.display = "none";
-
+            previewDiseno.removeAttribute("src");
+            previewDiseno.style.display = "none";
         }
-
     }
-
 
     actualizarUbicacionDiseño();
-
+    aplicarTransformacionDiseno();
 
     if (cantidad) {
-
         cantidad.value = personalizacion.cantidad;
-
     }
 
+    const elementos = {
+        "resumen-prenda": personalizacion.producto,
+        "resumen-diseno": personalizacion.diseño,
+        "resumen-color": personalizacion.color,
+        "resumen-talla": personalizacion.talla,
+        "resumen-ubicacion": personalizacion.ubicacion,
+        "color-actual": personalizacion.color,
+        "talla-actual": personalizacion.talla,
+        "ubicacion-label": personalizacion.ubicacion
+    };
 
-    const resumenPrenda =
-        document.getElementById("resumen-prenda");
+    Object.entries(elementos).forEach(([id, valor]) => {
 
-    const resumenDiseño =
-        document.getElementById("resumen-diseno");
+        const elemento = document.getElementById(id);
 
-    const resumenColor =
-        document.getElementById("resumen-color");
+        if (elemento) elemento.textContent = valor;
+    });
 
-    const resumenTalla =
-        document.getElementById("resumen-talla");
+    const resumenPrecio = document.getElementById("resumen-precio");
 
-    const resumenUbicacion =
-        document.getElementById("resumen-ubicacion");
-
-    const resumenPrecio =
-        document.getElementById("resumen-precio");
-
-
-    if (resumenPrenda) {
-        resumenPrenda.textContent = personalizacion.producto;
-    }
-
-    if (resumenDiseño) {
-        resumenDiseño.textContent = personalizacion.diseño;
-    }
-
-    if (resumenColor) {
-        resumenColor.textContent = personalizacion.color;
-    }
-
-    if (resumenTalla) {
-        resumenTalla.textContent = personalizacion.talla;
-    }
-
-    if (resumenUbicacion) {
-        resumenUbicacion.textContent = personalizacion.ubicacion;
-    }
-
-
-    const total =
-        producto.precio * personalizacion.cantidad;
+    const total = producto.precio * personalizacion.cantidad;
 
     if (resumenPrecio) {
         resumenPrecio.textContent = formatearPrecio(total);
     }
 
-
-    const colorActual =
-        document.getElementById("color-actual");
-
-    const tallaActual =
-        document.getElementById("talla-actual");
-
-    const ubicacionLabel =
-        document.getElementById("ubicacion-label");
-
-
-    if (colorActual) {
-        colorActual.textContent = personalizacion.color;
-    }
-
-    if (tallaActual) {
-        tallaActual.textContent = personalizacion.talla;
-    }
-
-    if (ubicacionLabel) {
-        ubicacionLabel.textContent = personalizacion.ubicacion;
-    }
-
     actualizarProgreso();
-
 }
 
 
@@ -1568,13 +1329,29 @@ function actualizarPreviewPersonalizacion() {
 
 function actualizarUbicacionDiseño() {
 
-    const layer =
-        document.getElementById("preview-diseno-layer");
-
-    const etiqueta =
-        document.getElementById("ubicacion-actual");
+    const layer = document.getElementById("preview-diseno-layer");
+    const etiqueta = document.getElementById("ubicacion-actual");
 
     if (!layer) return;
+
+    const posiciones = {
+        "Centro": [50, 50],
+        "Pecho": [50, 30],
+        "Abajo": [50, 75],
+        "Lateral": [72, 50],
+        "Espalda": [50, 50]
+    };
+
+    const posicion = posiciones[personalizacion.ubicacion] || [50, 50];
+
+    personalizacion.posicionX = posicion[0];
+    personalizacion.posicionY = posicion[1];
+
+    layer.style.position = "absolute";
+    layer.style.left = personalizacion.posicionX + "%";
+    layer.style.top = personalizacion.posicionY + "%";
+    layer.style.transform = "translate(-50%, -50%)";
+    layer.style.pointerEvents = "auto";
 
     layer.classList.remove(
         "posicion-centro",
@@ -1585,25 +1362,115 @@ function actualizarUbicacionDiseño() {
     );
 
     const mapa = {
-
         "Centro": "posicion-centro",
         "Pecho": "posicion-pecho",
         "Abajo": "posicion-abajo",
         "Lateral": "posicion-lateral",
         "Espalda": "posicion-espalda"
-
     };
 
-    layer.classList.add(
-        mapa[personalizacion.ubicacion] || "posicion-centro"
-    );
+    layer.classList.add(mapa[personalizacion.ubicacion] || "posicion-centro");
 
     if (etiqueta) {
         etiqueta.textContent = personalizacion.ubicacion;
     }
-
 }
 
+
+/* =========================================================
+   TRANSFORMAR DISEÑO
+   ========================================================= */
+
+function aplicarTransformacionDiseno() {
+
+    const imagen = document.getElementById("preview-diseno");
+
+    if (!imagen) return;
+
+    const escala = (personalizacion.tamano || 100) / 100;
+    const rotacion = personalizacion.rotacion || 0;
+
+    imagen.style.transform =
+        `scale(${escala}) rotate(${rotacion}deg)`;
+
+    const controlTamano = document.getElementById("diseno-tamano");
+    const controlRotacion = document.getElementById("diseno-rotacion");
+
+    const valorTamano = document.getElementById("diseno-tamano-valor");
+    const valorRotacion = document.getElementById("diseno-rotacion-valor");
+
+    if (controlTamano) controlTamano.value = personalizacion.tamano || 100;
+    if (controlRotacion) controlRotacion.value = personalizacion.rotacion || 0;
+
+    if (valorTamano) valorTamano.textContent = (personalizacion.tamano || 100) + "%";
+    if (valorRotacion) valorRotacion.textContent = (personalizacion.rotacion || 0) + "°";
+}
+
+
+/* =========================================================
+   ARRASTRAR DISEÑO CON EL MOUSE
+   ========================================================= */
+
+function activarMovimientoDiseno() {
+
+    const layer = document.getElementById("preview-diseno-layer");
+    const wrapper = document.querySelector(".preview-prenda-wrapper");
+
+    if (!layer || !wrapper || layer.dataset.movimientoActivo) return;
+
+    layer.dataset.movimientoActivo = "true";
+    layer.style.cursor = "grab";
+    layer.style.touchAction = "none";
+
+    layer.addEventListener("pointerdown", evento => {
+
+        if (evento.button !== 0) return;
+
+        evento.preventDefault();
+
+        const rect = wrapper.getBoundingClientRect();
+
+        layer.setPointerCapture(evento.pointerId);
+        layer.style.cursor = "grabbing";
+
+        function mover(e) {
+
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+            personalizacion.posicionX = Math.max(5, Math.min(95, x));
+            personalizacion.posicionY = Math.max(5, Math.min(95, y));
+
+            personalizacion.ubicacion = "Personalizada";
+
+            layer.style.left = personalizacion.posicionX + "%";
+            layer.style.top = personalizacion.posicionY + "%";
+
+            const etiqueta = document.getElementById("ubicacion-actual");
+            const label = document.getElementById("ubicacion-label");
+            const resumen = document.getElementById("resumen-ubicacion");
+
+            if (etiqueta) etiqueta.textContent = "Personalizada";
+            if (label) label.textContent = "Personalizada";
+            if (resumen) resumen.textContent = "Personalizada";
+
+            document.querySelectorAll(".ubicacion-opcion").forEach(item => {
+                item.classList.remove("activo", "seleccionado");
+            });
+        }
+
+        function terminar() {
+            layer.style.cursor = "grab";
+            layer.removeEventListener("pointermove", mover);
+            layer.removeEventListener("pointerup", terminar);
+            layer.removeEventListener("pointercancel", terminar);
+        }
+
+        layer.addEventListener("pointermove", mover);
+        layer.addEventListener("pointerup", terminar);
+        layer.addEventListener("pointercancel", terminar);
+    });
+}
 
 /* =========================================================
    PROGRESO
