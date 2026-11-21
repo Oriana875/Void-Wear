@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const { data: perfil, error: errorPerfil } =
         await supabaseClient
             .from("perfiles")
-            .select("nombre")
+            .select("nombre, rol")
             .eq("id", user.id)
             .maybeSingle();
 
@@ -52,6 +52,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     nombre.value = perfil.nombre || "";
     bienvenida.textContent = `Hola, ${nombreCliente}`;
+    // Mostrar panel de administración
+const enlaceAdmin = document.getElementById("enlace-admin");
+
+if (perfil.rol === "admin" && enlaceAdmin) {
+    enlaceAdmin.hidden = false;
+}
 
     // Guardar cambios
     formulario.addEventListener("submit", async (event) => {

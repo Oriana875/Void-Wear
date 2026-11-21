@@ -198,11 +198,10 @@ async function verificarAdmin() {
                 .eq("id", user.id)
                 .single();
 
-        if (errorPerfil || perfil.rol !== "admin") {
-            mostrarMensaje("No tienes permisos de administrador.", true);
-            document.querySelector("main").style.display = "none";
-            return false;
-        }
+        if (errorPerfil || !perfil || perfil.rol !== "admin") {
+    window.location.replace("perfil.html");
+    return false;
+}
 
         mostrarMensaje("Bienvenido al panel de administración.");
         return true;
