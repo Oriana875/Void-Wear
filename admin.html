@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración | VOID WEAR</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+   
+</head>
+
+<body>
+
+<main class="admin-container">
+
+    <header class="admin-header">
+        <div>
+            <h1>VOID WEAR</h1>
+            <p>Panel de administración</p>
+        </div>
+
+        <button id="cerrar-sesion" class="secundario">
+            Cerrar sesión
+        </button>
+    </header>
+
+    <div id="admin-mensaje" class="mensaje">
+        Verificando permisos...
+    </div>
+
+    <nav class="admin-tabs">
+        <button data-seccion="productos">Productos</button>
+        <button data-seccion="pedidos">Pedidos</button>
+        <button data-seccion="disenos">Diseños</button>
+    </nav>
+
+    <!-- PRODUCTOS -->
+    <section id="productos" class="admin-section activo">
+
+        <h2>Administrar productos</h2>
+
+        <form id="form-producto">
+
+            <input type="hidden" id="producto-id">
+
+            <label>Nombre</label>
+            <input id="producto-nombre" required>
+
+            <label>Descripción</label>
+            <textarea id="producto-descripcion"></textarea>
+
+            <label>Precio</label>
+            <input id="producto-precio" type="number" min="0" required>
+
+            <label>Imagen (ruta o URL)</label>
+            <input id="producto-imagen" required>
+
+            <label>Categoría</label>
+            <input id="producto-categoria" required>
+
+            <label>Disponibilidad</label>
+            <select id="producto-disponible">
+                <option value="true">Disponible</option>
+                <option value="false">No disponible</option>
+            </select>
+
+            <button type="submit">Guardar producto</button>
+            <button type="button" id="cancelar-producto" class="secundario">
+                Limpiar
+            </button>
+
+        </form>
+
+        <h3>Productos registrados</h3>
+
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Disponible</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-productos"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <!-- PEDIDOS -->
+    <section id="pedidos" class="admin-section">
+
+        <h2>Pedidos de clientes</h2>
+
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-pedidos"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <!-- DISEÑOS -->
+    <section id="disenos" class="admin-section">
+
+        <h2>Administrar diseños</h2>
+
+        <form id="form-diseno">
+
+            <input type="hidden" id="diseno-id">
+
+            <label>Nombre</label>
+            <input id="diseno-nombre" required>
+
+            <label>Imagen (ruta o URL)</label>
+            <input id="diseno-imagen" required>
+
+            <label>Descripción</label>
+            <textarea id="diseno-descripcion"></textarea>
+
+            <label>Estado</label>
+            <select id="diseno-activo">
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+
+            <button type="submit">Guardar diseño</button>
+            <button type="button" id="cancelar-diseno" class="secundario">
+                Limpiar
+            </button>
+
+        </form>
+
+        <h3>Diseños registrados</h3>
+
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Imagen</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-disenos"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+const mensaje = document.getElementById("admin-mensaje");
+
+let productos = [];
+let disenos = [];
+
+function mostrarMensaje(texto, error = false) {
+    mensaje.textContent = texto;
+    mensaje.style.color = error ? "#C0395B" : "#743A58";
+}
+
+// VERIFICAR ADMINISTRADOR
+async function verificarAdmin() {
+    try {
+        const { data: { user }, error } =
+            await supabaseClient.auth.getUser();
+
+        if (error || !user) {
+            window.location.replace("cuenta.html?redirect=admin.html");
+            return false;
+        }
+
+        const { data: perfil, error: errorPerfil } =
+            await supabaseClient
+                .from("perfiles")
+                .select("rol")
+                .eq("id", user.id)
+                .single();
+
+        if (errorPerfil || perfil.rol !== "admin") {
+            mostrarMensaje("No tienes permisos de administrador.", true);
+            document.querySelector("main").style.display = "none";
+            return false;
+        }
+
+        mostrarMensaje("Bienvenido al panel de administración.");
+        return true;
+
+    } catch (error) {
+        mostrarMensaje(error.message, true);
+        return false;
+    }
+}
+
+// CAMBIAR SECCIONES
+document.querySelectorAll("[data-seccion]").forEach(boton => {
+    boton.addEventListener("click", () => {
+        document.querySelectorAll(".admin-section")
+            .forEach(seccion => seccion.classList.remove("activo"));
+
+        document.getElementById(boton.dataset.seccion)
+            .classList.add("activo");
+    });
+});
+
+// PRODUCTOS
+async function cargarProductos() {
+    const { data, error } = await supabaseClient
+        .from("productos")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        mostrarMensaje(error.message, true);
+        return;
+    }
+
+    productos = data || [];
+
+    document.getElementById("lista-productos").innerHTML =
+        productos.map(p => `
+            <tr>
+                <td>
+                    <img class="producto-imagen"
+                         src="${escapar(p.imagen)}"
+                         alt="">
+                </td>
+                <td>${escapar(p.nombre)}</td>
+                <td>$${Number(p.precio).toLocaleString("es-CO")}</td>
+                <td>${p.disponible ? "Sí" : "No"}</td>
+                <td>
+                    <div class="acciones">
+                        <button data-editar-producto="${escapar(p.id)}">
+                            Editar
+                        </button>
+                        <button class="peligro"
+                                data-eliminar-producto="${escapar(p.id)}">
+                            Eliminar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+
+    document.querySelectorAll("[data-editar-producto]").forEach(b => {
+        b.addEventListener("click", () => editarProducto(b.dataset.editarProducto));
+    });
+
+    document.querySelectorAll("[data-eliminar-producto]").forEach(b => {
+        b.addEventListener("click", () => eliminarProducto(b.dataset.eliminarProducto));
+    });
+}
+
+function editarProducto(id) {
+    const p = productos.find(x => String(x.id) === String(id));
+    if (!p) return;
+
+    document.getElementById("producto-id").value = p.id;
+    document.getElementById("producto-nombre").value = p.nombre || "";
+    document.getElementById("producto-descripcion").value = p.descripcion || "";
+    document.getElementById("producto-precio").value = p.precio;
+    document.getElementById("producto-imagen").value = p.imagen || "";
+    document.getElementById("producto-categoria").value = p.categoria || "";
+    document.getElementById("producto-disponible").value = String(p.disponible);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("form-producto").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const id = document.getElementById("producto-id").value;
+
+    const producto = {
+        nombre: document.getElementById("producto-nombre").value.trim(),
+        descripcion: document.getElementById("producto-descripcion").value.trim(),
+        precio: Number(document.getElementById("producto-precio").value),
+        imagen: document.getElementById("producto-imagen").value.trim(),
+        categoria: document.getElementById("producto-categoria").value.trim(),
+        disponible: document.getElementById("producto-disponible").value === "true"
+    };
+
+    const consulta = id
+        ? supabaseClient.from("productos").update(producto).eq("id", id)
+        : supabaseClient.from("productos").insert(producto);
+
+    const { error } = await consulta;
+
+    if (error) {
+        mostrarMensaje(error.message, true);
+        return;
+    }
+
+    mostrarMensaje("Producto guardado correctamente.");
+    limpiarProducto();
+    cargarProductos();
+});
+
+async function eliminarProducto(id) {
+    if (!confirm("¿Seguro que quieres eliminar este producto?")) return;
+
+    const { error } = await supabaseClient
+        .from("productos")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        mostrarMensaje(error.message, true);
+        return;
+    }
+
+    mostrarMensaje("Producto eliminado.");
+    cargarProductos();
+}
+
+function limpiarProducto() {
+    document.getElementById("form-producto").reset();
+    document.getElementById("producto-id").value = "";
+}
+
+document.getElementById("cancelar-producto")
+    .addEventListener("click", limpiarProducto);
+
+// PEDIDOS
+async function cargarPedidos() {
+    const { data, error } = await supabaseClient
+        .from("pedidos")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        mostrarMensaje(error.message, true);
+        return;
+    }
+
+    document.getElementById("lista-pedidos").innerHTML =
+        (data || []).map(p => `
+            <tr>
+                <td>${escapar(p.id)}</td>
+                <td>${escapar(p.usuario_id)}</td>
+                <td>$${Number(p.total).toLocaleString("es-CO")}</td>
+                <td>${escapar(p.estado)}</td>
+                <td>
+                    <select data-estado-pedido="${escapar(p.id)}">
+                        <option value="pendiente" ${p.estado === "pendiente" ? "selected" : ""}>Pendiente</option>
+                        <option value="en_proceso" ${p.estado === "en_proceso" ? "selected" : ""}>En proceso</option>
+                        <option value="enviado" ${p.estado === "enviado" ? "selected" : ""}>Enviado</option>
+                        <option value="entregado" ${p.estado === "entregado" ? "selected" : ""}>Entregado</option>
+                        <option value="cancelado" ${p.estado === "cancelado" ? "selected" : ""}>Cancelado</option>
+                    </select>
+                </td>
+            </tr>
+        `).join("");
+
+    document.querySelectorAll("[data-estado-pedido]").forEach(select => {
+        select.addEventListener("change", async () => {
+            const { error } = await supabaseClient
+                .from("pedidos")
+                .update({ estado: select.value })
+                .eq("id", select.dataset.estadoPedido);
+
+            if (error) {
+                mostrarMensaje(error.message, true);
+                return;
+            }
+
+            mostrarMensaje("Estado del pedido actualizado.");
+        });
+    });
+}
+
+// DISEÑOS
+
+   
+async function cargarDisenos() {
+    const { data, error } = await supabaseClient
+        .from("disenos")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        mostrarMensaje(error.message, true);
+        return;
+    }
+
+    disenos = data || [];
+
+    document.getElementById("lista-disenos").innerHTML =
+        disenos.map(d => `
+            <tr>
+                <td>${escapar(d.nombre)}</td>
+                <td>
+                    <img
+                        class="producto-imagen"
+                        src="${escapar(d.imagen || "")}"
+                        alt="${escapar(d.nombre)}"
+                        onerror="this.style.display='none'; this.parentElement.textContent='Imagen no encontrada';"
+                    >
+                </td>
+                <td>${d.activo ? "Sí" : "No"}</td>
+                <td>
+                    <div class="acciones">
+                        <button data-editar-diseno="${escapar(d.id)}">Editar</button>
+                        <button class="peligro"
+                                data-eliminar-diseno="${escapar(d.id)}">
+                            Eliminar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+
+    document.querySelectorAll("[data-editar-diseno]").forEach(b => {
+        b.addEventListener("click", () => editarDiseno(b.dataset.editarDiseno));
+    });
+
+    document.querySelectorAll("[data-eliminar-diseno]").forEach(b => {
+        b.addEventListener("click", () => eliminarDiseno(b.dataset.eliminarDiseno));
+    });
+}
+
+// ESCAPAR TEXTO PARA MOSTRAR DATOS
+function escapar(valor) {
+    return String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[caracter]);
+}
+
+// CERRAR SESIÓN
+document.getElementById("cerrar-sesion")
+    .addEventListener("click", async () => {
+        await supabaseClient.auth.signOut();
+        window.location.replace("cuenta.html");
+    });
+
+// INICIAR PANEL
+(async function iniciarPanel() {
+    const autorizado = await verificarAdmin();
+
+    if (!autorizado) return;
+
+    await Promise.all([
+        cargarProductos(),
+        cargarPedidos(),
+        cargarDisenos()
+    ]);
+})();
+</script>
+
+</body>
+</html>

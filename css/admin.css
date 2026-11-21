@@ -1,0 +1,315 @@
+
+/* =========================================
+   VOID WEAR — PANEL DE ADMINISTRACIÓN
+   Estética: rosa, blanco y minimalista
+========================================= */
+
+:root {
+    --rosa: #ec4899;
+    --rosa-fuerte: #c02674;
+    --rosa-oscuro: #8e2858;
+    --rosa-claro: #ffd6e5;
+    --fondo: #fff5f9;
+    --blanco: #ffffff;
+    --texto: #49313d;
+    --gris: #987f8c;
+    --borde: #f3dce7;
+    --sombra: 0 10px 30px rgba(192, 38, 116, .07);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.admin-container {
+    width: min(1200px, 94%);
+    margin: 35px auto;
+}
+
+/* ENCABEZADO */
+
+.admin-header {
+    background: var(--blanco);
+    padding: 28px 32px;
+    border: 1px solid var(--borde);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: var(--sombra);
+}
+
+.admin-header h1 {
+    margin: 0;
+    color: var(--rosa-oscuro);
+    font-family: 'Bodoni Moda', Georgia, serif;
+    font-size: 36px;
+    font-style: italic;
+    letter-spacing: 2px;
+}
+
+.admin-header p {
+    margin: 5px 0 0;
+    color: var(--gris);
+    font-size: 13px;
+}
+
+/* MENSAJES */
+
+.mensaje {
+    margin: 18px 4px;
+    color: var(--rosa-oscuro);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* NAVEGACIÓN */
+
+.admin-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 25px 0;
+}
+
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 19px;
+    background: var(--rosa);
+    color: white;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+button:hover {
+    background: var(--rosa-oscuro);
+    transform: translateY(-2px);
+}
+
+.admin-tabs button {
+    background: white;
+    color: var(--rosa-oscuro);
+    border: 1px solid var(--borde);
+}
+
+.admin-tabs button:hover,
+.admin-tabs button:focus {
+    background: var(--rosa);
+    color: white;
+}
+
+/* SECCIONES */
+
+.admin-section {
+    display: none;
+    background: white;
+    padding: 30px;
+    border-radius: 22px;
+    border: 1px solid var(--borde);
+    box-shadow: var(--sombra);
+    margin-bottom: 25px;
+}
+
+.admin-section.activo {
+    display: block;
+}
+
+.admin-section h2 {
+    color: var(--rosa-oscuro);
+    font-size: 22px;
+    margin: 0 0 25px;
+}
+
+.admin-section h3 {
+    color: var(--rosa-oscuro);
+    margin: 35px 0 18px;
+    font-size: 17px;
+}
+
+/* FORMULARIOS */
+
+form {
+    background: #fff9fc;
+    padding: 24px;
+    border: 1px solid var(--borde);
+    border-radius: 17px;
+}
+
+label {
+    display: block;
+    color: var(--rosa-oscuro);
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+input,
+textarea,
+select {
+    display: block;
+    width: 100%;
+    padding: 13px 14px;
+    margin: 8px 0 16px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    background: white;
+    color: var(--texto);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--rosa);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, .10);
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+form button {
+    margin-top: 8px;
+}
+
+/* TABLAS */
+
+.tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--borde);
+    border-radius: 15px;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    padding: 16px 14px;
+    background: #fff0f6;
+    color: var(--rosa-oscuro);
+    font-size: 11px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #f8eaf0;
+    color: var(--texto);
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #fffafd;
+}
+
+/* IMÁGENES */
+
+.producto-imagen {
+    display: block;
+    width: 85px;
+    height: 95px;
+    padding: 5px;
+    object-fit: contain;
+    background: #fff5f9;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+}
+
+/* ACCIONES */
+
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.acciones button {
+    padding: 9px 12px;
+    font-size: 11px;
+}
+
+.secundario {
+    background: #fce7f0;
+    color: var(--rosa-oscuro);
+}
+
+.secundario:hover {
+    background: var(--rosa-claro);
+    color: var(--rosa-oscuro);
+}
+
+.peligro {
+    background: #ffe3e8;
+    color: #b4234b;
+}
+
+.peligro:hover {
+    background: #bd3558;
+    color: white;
+}
+
+/* PEDIDOS */
+
+td select {
+    min-width: 125px;
+    padding: 9px;
+    margin: 0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 650px) {
+    .admin-container {
+        width: 94%;
+        margin: 18px auto;
+    }
+
+    .admin-header {
+        padding: 22px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-header h1 {
+        font-size: 29px;
+    }
+
+    .admin-section {
+        padding: 18px;
+    }
+
+    form {
+        padding: 16px;
+    }
+
+    .admin-tabs button {
+        flex: 1;
+    }
+}

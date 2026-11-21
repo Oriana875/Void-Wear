@@ -1,0 +1,161 @@
+
+/* =================================
+   VOID AI — ESTILOS
+================================= */
+
+#void-ai-button {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 9998;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 22px;
+    background: #EC4899;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 20px #8e285855;
+    transition: .25s;
+}
+
+#void-ai-button:hover {
+    transform: translateY(-4px);
+    background: #C02674;
+}
+
+#void-ai-window {
+    position: fixed;
+    right: 25px;
+    bottom: 90px;
+    z-index: 9999;
+    width: 350px;
+    max-width: calc(100vw - 30px);
+    height: 480px;
+    max-height: calc(100vh - 120px);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #FFF5F9;
+    border: 1px solid #FFD6E5;
+    box-shadow: 0 10px 40px #8e285833;
+    font-family: Arial, sans-serif;
+}
+
+#void-ai-window.abierto {
+    display: flex;
+}
+
+.void-ai-header {
+    background: linear-gradient(135deg, #EC4899, #8E2858);
+    color: white;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.void-ai-header h3 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.void-ai-header p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    opacity: .9;
+}
+
+#void-ai-close {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#void-ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.void-ai-message {
+    max-width: 85%;
+    padding: 11px 14px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.void-ai-message.bot {
+    align-self: flex-start;
+    background: white;
+    color: #54223D;
+    border: 1px solid #FFD6E5;
+}
+
+.void-ai-message.user {
+    align-self: flex-end;
+    background: #EC4899;
+    color: white;
+}
+
+.void-ai-form {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #FFD6E5;
+}
+
+#void-ai-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #FFD6E5;
+    border-radius: 20px;
+    padding: 11px 14px;
+    outline: none;
+    font-size: 14px;
+}
+
+#void-ai-input:focus {
+    border-color: #EC4899;
+}
+
+#void-ai-send {
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    background: #EC4899;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#void-ai-send:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+@media (max-width: 480px) {
+    #void-ai-button {
+        right: 15px;
+        bottom: 15px;
+    }
+
+    #void-ai-window {
+        right: 10px;
+        bottom: 75px;
+        width: calc(100vw - 20px);
+        height: min(480px, calc(100dvh - 100px));
+    }
+}

@@ -135,20 +135,44 @@ const DISEÑOS = {
     "Star Signal": "img/diseno_1_star.png",
     "Flame Theory": "img/diseno_3_flame.png",
 
-    "Butterfly Code": null,
-    "Broken Heart": null
+    "Butterfly Code": "img/butterfly code.png",
+    "Broken Heart": "img/broken heart.png"
 
 };
 
-
 const COLORES = {
 
+    // NEUTROS
     "Negro": "brightness(.28) saturate(.65)",
     "Blanco": "brightness(0) invert(1)",
-    "Rosa": "sepia(.15) saturate(1.9) hue-rotate(295deg) brightness(1.02)",
+    "Gris": "grayscale(1) brightness(.8)",
+    "Gris claro": "grayscale(1) brightness(1.5)",
+    "Crema": "sepia(.25) saturate(.5) brightness(1.15)",
+    "Beige": "sepia(.35) saturate(.65) hue-rotate(350deg) brightness(1.04)",
+    "Café": "sepia(.8) saturate(1.2) brightness(.65)",
+
+    // ROSADOS
+    "Rosa pastel": "sepia(.2) saturate(1.2) hue-rotate(295deg) brightness(1.2)",
+    "Rosa bebé": "sepia(.25) saturate(1.4) hue-rotate(310deg) brightness(1.15)",
+    "Fucsia": "sepia(.3) saturate(2.5) hue-rotate(285deg) brightness(.95)",
+    "Palo de rosa": "sepia(.35) saturate(1.3) hue-rotate(310deg) brightness(.85)",
+
+    // AZULES
+    "Celeste": "sepia(.2) saturate(1.5) hue-rotate(165deg) brightness(1.2)",
     "Azul": "sepia(.25) saturate(1.25) hue-rotate(170deg) brightness(.95)",
-    "Verde": "sepia(.18) saturate(.9) hue-rotate(75deg) brightness(.95)",
-    "Beige": "sepia(.35) saturate(.65) hue-rotate(350deg) brightness(1.04)"
+    "Azul marino": "sepia(.5) saturate(1.8) hue-rotate(175deg) brightness(.5)",
+
+    // VERDES
+    "Verde menta": "sepia(.2) saturate(1.2) hue-rotate(75deg) brightness(1.2)",
+    "Verde oliva": "sepia(.5) saturate(1.3) hue-rotate(65deg) brightness(.75)",
+    "Verde botella": "sepia(.5) saturate(1.5) hue-rotate(75deg) brightness(.5)",
+
+    // OTROS
+    "Lila": "sepia(.25) saturate(1.5) hue-rotate(250deg) brightness(1.1)",
+    "Morado": "sepia(.4) saturate(2) hue-rotate(245deg) brightness(.8)",
+    "Rojo": "sepia(.4) saturate(2.5) hue-rotate(320deg) brightness(.8)",
+    "Vino": "sepia(.5) saturate(2) hue-rotate(320deg) brightness(.55)",
+    "Amarillo": "sepia(.6) saturate(2) hue-rotate(5deg) brightness(1.1)"
 
 };
 
@@ -1335,12 +1359,12 @@ function actualizarUbicacionDiseño() {
     if (!layer) return;
 
     const posiciones = {
-        "Centro": [50, 50],
-        "Pecho": [50, 30],
-        "Abajo": [50, 75],
-        "Lateral": [72, 50],
-        "Espalda": [50, 50]
-    };
+    "Centro": [50, 50],
+    "Pecho": [50, 38],
+    "Abajo": [50, 62],
+    "Lateral": [65, 50],
+    "Espalda": [50, 50]
+};
 
     const posicion = posiciones[personalizacion.ubicacion] || [50, 50];
 
